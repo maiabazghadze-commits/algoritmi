@@ -1,0 +1,3100 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>რა არის ალგორითმი? | ინტერაქტიული სასწავლო რესურსი (IV-VI კლასები)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=FiraGO:wght@400;500;600;700;800&family=Noto+Sans+Georgian:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --primary-dark: #3730a3;
+      --secondary: #06b6d4;
+      --secondary-dark: #0891b2;
+      --accent: #f59e0b;
+      --accent-hover: #d97706;
+      --success: #10b981;
+      --success-dark: #059669;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+      --shadow-md: 0 6px 18px rgba(79, 70, 229, 0.08);
+      --shadow-lg: 0 12px 28px rgba(0,0,0,0.12);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --font-main: 'FiraGO', 'Noto Sans Georgian', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Accessibility focus */
+    *:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #4338ca 0%, #6366f1 50%, #3b82f6 100%);
+      color: white;
+      padding: 1.25rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(67, 56, 202, 0.25);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .logo-badge {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      border: 2px solid rgba(255,255,255,0.4);
+      animation: floatBadge 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatBadge {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-4px) rotate(3deg); }
+    }
+
+    .brand-text h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-text p {
+      font-size: 0.85rem;
+      color: #e0e7ff;
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-header {
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: white;
+      padding: 0.5rem 0.9rem;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-header:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* GLOBAL PROGRESS BAR */
+    .progress-bar-container {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.25);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #fbbf24;
+      width: 15%;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* NAVIGATION TABS */
+    nav.nav-tabs {
+      background: #ffffff;
+      border-bottom: 2px solid var(--border-color);
+      position: sticky;
+      top: 76px;
+      z-index: 90;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0.5rem 1rem;
+      gap: 0.5rem;
+    }
+
+    .nav-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      padding: 0.75rem 1.25rem;
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .tab-btn:hover {
+      color: var(--primary);
+      background: #eef2ff;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      background: #e0e7ff;
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 15%;
+      width: 70%;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 3px 3px 0 0;
+    }
+
+    .tab-badge {
+      background: #cbd5e1;
+      color: #334155;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .tab-btn.active .tab-badge {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* MAIN CONTENT AREA */
+    main {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CARD STYLING */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-header-styled {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px dashed #f1f5f9;
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      background: #e0e7ff;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .card-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* MASCOT / ALGO COMPANION */
+    .algo-callout {
+      background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+      border: 2px solid #c7d2fe;
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .algo-avatar {
+      width: 64px;
+      height: 64px;
+      background: white;
+      border: 3px solid var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+      animation: pulseAlgo 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseAlgo {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .algo-speech {
+      flex: 1;
+    }
+
+    .algo-speech h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .algo-speech p {
+      font-size: 0.95rem;
+      color: #334155;
+    }
+
+    /* GRID LAYOUTS */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .grid-5 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    /* PROPERTY CARDS */
+    .property-card {
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .property-card:hover, .property-card.active-prop {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.12);
+    }
+
+    .property-card.active-prop {
+      background: #f5f3ff;
+    }
+
+    .prop-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .prop-icon {
+      font-size: 2rem;
+    }
+
+    .prop-tag {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 700;
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    .property-card.active-prop .prop-tag {
+      background: var(--primary);
+      color: white;
+    }
+
+    .prop-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+
+    .prop-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    .prop-example-box {
+      margin-top: 0.85rem;
+      padding: 0.65rem 0.85rem;
+      background: #f1f5f9;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      color: #334155;
+      border-left: 3px solid var(--accent);
+    }
+
+    /* STEP CARDS / SEQUENCES */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.25rem;
+      background: #f8fafc;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .step-item:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    /* FLOWCHART SHAPES SHOWCASE */
+    .shape-card {
+      background: white;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      text-align: center;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .shape-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .shape-card.active-shape {
+      border-color: var(--primary);
+      background: #faf5ff;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    .shape-svg-wrapper {
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+      width: 100%;
+    }
+
+    .shape-svg-wrapper svg {
+      max-width: 100%;
+      max-height: 80px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.06));
+    }
+
+    .shape-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .shape-purpose {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* CODE & PSEUDOCODE BOXES */
+    .code-box {
+      background: #1e1e2f;
+      color: #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      border: 1px solid #334155;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .code-keyword { color: #f472b6; font-weight: bold; }
+    .code-var { color: #38bdf8; }
+    .code-op { color: #fbbf24; }
+    .code-comment { color: #94a3b8; font-style: italic; }
+    .code-func { color: #a78bfa; }
+
+    /* LANGUAGE LADDER / PYRAMID */
+    .ladder-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .ladder-tier {
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      border: 2px solid;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      transition: transform 0.2s ease;
+    }
+
+    .ladder-tier:hover {
+      transform: translateX(6px);
+    }
+
+    .tier-high {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #065f46;
+    }
+
+    .tier-mid {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1e40af;
+    }
+
+    .tier-low {
+      background: #fffbeb;
+      border-color: #fde68a;
+      color: #92400e;
+    }
+
+    .tier-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background: white;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+    }
+
+    .tier-info h4 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 0.2rem;
+    }
+
+    .tier-info p {
+      font-size: 0.88rem;
+      opacity: 0.9;
+    }
+
+    .tier-langs {
+      margin-top: 0.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .lang-pill {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    /* INTERACTIVE FLOWCHART SIMULATOR */
+    .simulator-box {
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .sim-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    .sim-input-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .sim-input-group label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .sim-input-group input[type="number"] {
+      width: 75px;
+      padding: 0.45rem 0.65rem;
+      border: 2px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+      color: var(--primary-dark);
+    }
+
+    .btn-action {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+    }
+
+    .btn-action:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-action:active {
+      transform: translateY(1px);
+    }
+
+    .btn-secondary-action {
+      background: #e2e8f0;
+      color: #334155;
+      border: none;
+      padding: 0.6rem 1.1rem;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary-action:hover {
+      background: #cbd5e1;
+    }
+
+    /* SVG FLOWCHART VISUALIZER */
+    .flowchart-svg-container {
+      width: 100%;
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      border-radius: var(--radius-md);
+      border: 1px dashed #cbd5e1;
+      padding: 1.5rem;
+      overflow-x: auto;
+    }
+
+    .flow-node {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .flow-node.active-step {
+      filter: drop-shadow(0 0 12px #f59e0b) drop-shadow(0 0 4px #fbbf24);
+    }
+
+    .flow-node.active-step path,
+    .flow-node.active-step rect,
+    .flow-node.active-step polygon,
+    .flow-node.active-step ellipse {
+      stroke: #d97706 !important;
+      stroke-width: 4 !important;
+      fill: #fef3c7 !important;
+    }
+
+    .flow-node.active-step text {
+      fill: #92400e !important;
+      font-weight: 800 !important;
+    }
+
+    /* INTERACTIVE GAMES TAB */
+    .game-tabs {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .game-subtab-btn {
+      padding: 0.6rem 1.1rem;
+      border: 2px solid var(--border-color);
+      border-radius: 999px;
+      background: white;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #475569;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .game-subtab-btn.active {
+      border-color: var(--primary);
+      background: #eef2ff;
+      color: var(--primary);
+    }
+
+    /* SEQUENCING DRAG / ORDER GAME */
+    .sequencer-container {
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+    }
+
+    .draggable-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin: 1.25rem 0;
+    }
+
+    .drag-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1rem;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      cursor: grab;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .drag-item:active {
+      cursor: grabbing;
+      opacity: 0.8;
+      background: #ede9fe;
+      border-color: var(--primary);
+    }
+
+    .drag-item.correct-pos {
+      border-color: var(--success);
+      background: #f0fdf4;
+    }
+
+    .drag-text-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .drag-handle {
+      color: #94a3b8;
+      font-size: 1.25rem;
+    }
+
+    .drag-btn-controls {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .btn-arrow-move {
+      background: #e2e8f0;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+
+    .btn-arrow-move:hover {
+      background: #cbd5e1;
+    }
+
+    /* QUIZ SECTION */
+    .quiz-container {
+      background: white;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+    }
+
+    .quiz-level-selector {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-level {
+      padding: 0.55rem 1.2rem;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--border-color);
+      background: #f8fafc;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #475569;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-level.active {
+      border-color: var(--accent);
+      background: #fffbeb;
+      color: #b45309;
+    }
+
+    .quiz-question-card {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .quiz-q-num {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .quiz-q-text {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .quiz-option-btn {
+      text-align: left;
+      padding: 0.95rem 1.25rem;
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.2s ease;
+    }
+
+    .quiz-option-btn:hover:not(:disabled) {
+      border-color: var(--primary-light);
+      background: #f5f3ff;
+      transform: translateX(4px);
+    }
+
+    .quiz-option-btn.selected-correct {
+      background: #ecfdf5;
+      border-color: var(--success);
+      color: #065f46;
+    }
+
+    .quiz-option-btn.selected-wrong {
+      background: #fef2f2;
+      border-color: var(--danger);
+      color: #991b1b;
+    }
+
+    .quiz-option-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .quiz-feedback-box {
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .quiz-feedback-box.correct {
+      display: block;
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .quiz-feedback-box.wrong {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    /* CERTIFICATE MODAL / VIEW */
+    .certificate-card {
+      background: #ffffff;
+      border: 8px double #4338ca;
+      border-radius: var(--radius-md);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+      box-shadow: var(--shadow-lg);
+      max-width: 650px;
+      margin: 2rem auto;
+      background-image: radial-gradient(#e0e7ff 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .cert-seal {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+      border: 4px solid #fef3c7;
+    }
+
+    .cert-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #1e1b4b;
+      margin-bottom: 0.5rem;
+    }
+
+    .cert-subtitle {
+      font-size: 1.05rem;
+      color: #475569;
+      margin-bottom: 1.5rem;
+    }
+
+    .cert-name-input {
+      font-family: inherit;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 0.5rem 1rem;
+      border: 2px dashed #6366f1;
+      border-radius: var(--radius-sm);
+      color: var(--primary-dark);
+      background: #eef2ff;
+      max-width: 350px;
+      margin: 0 auto 1.25rem;
+      display: block;
+      width: 100%;
+    }
+
+    .cert-reason {
+      font-size: 0.95rem;
+      color: #334155;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .cert-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 2px dashed #cbd5e1;
+      padding-top: 1.25rem;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    /* MODAL WINDOWS */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: var(--radius-md);
+      max-width: 750px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      position: relative;
+    }
+
+    .modal-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .modal-header h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .modal-close-btn {
+      background: #e2e8f0;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+
+    .modal-close-btn:hover {
+      background: #cbd5e1;
+    }
+
+    .modal-body {
+      padding: 1.75rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #1e1b4b;
+      color: #cbd5e1;
+      padding: 2rem 1.5rem;
+      margin-top: 3rem;
+      font-size: 0.88rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .footer-note {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #93c5fd;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* PRINT STYLING */
+    @media print {
+      header, nav, .sim-controls, .btn-action, .btn-secondary-action, footer, .modal-overlay, .tab-btn {
+        display: none !important;
+      }
+      body {
+        background: white;
+        color: black;
+      }
+      .certificate-card {
+        border: 4px solid black;
+        box-shadow: none;
+        max-width: 100%;
+        margin: 0;
+        page-break-inside: avoid;
+      }
+      .tab-pane {
+        display: block !important;
+      }
+    }
+
+    /* RESPONSIVE BREAKPOINTS */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .brand-text h1 {
+        font-size: 1.2rem;
+      }
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .algo-callout {
+        flex-direction: column;
+        text-align: center;
+      }
+      .card {
+        padding: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <div class="brand">
+        <div class="logo-badge" title="რობოტი ალგო">🤖</div>
+        <div class="brand-text">
+          <h1>რა არის ალგორითმი?</h1>
+          <p>კომპიუტერული ტექნოლოგიები | IV-VI კლასები</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="soundToggleBtn" class="btn-header" title="ხმის ჩართვა/გამორთვა">
+          <span id="soundIcon">🔊</span> <span id="soundText">ხმა ჩართულია</span>
+        </button>
+        <button id="teacherGuideBtn" class="btn-header" title="მასწავლებლის გზამკვლევი და გეგმა">
+          <span>👩‍🏫</span> <span>მასწავლებლის კუთხე</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress-bar-container" title="თქვენი საერთო პროგრესი">
+      <div id="globalProgressFill" class="progress-fill"></div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION TABS -->
+  <nav class="nav-tabs" aria-label="სასწავლო განყოფილებები">
+    <div class="nav-container">
+      <button class="tab-btn active" data-tab="tab-intro">
+        <span>🌟</span> <span>1. შესავალი და თვისებები</span>
+        <span class="tab-badge">საწყისი</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-forms">
+        <span>📝</span> <span>2. ჩაწერის ფორმები</span>
+        <span class="tab-badge">ენები</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-types">
+        <span>🔀</span> <span>3. ალგორითმის ტიპები</span>
+        <span class="tab-badge">სტრუქტურები</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-lab">
+        <span>🎮</span> <span>4. ლაბორატორია & თამაშები</span>
+        <span class="tab-badge">პრაქტიკა</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-cert">
+        <span>🏆</span> <span>5. სერტიფიკატი & ჯილდო</span>
+        <span class="tab-badge" id="starsBadge">⭐ 0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN VIEW CONTAINER -->
+  <main>
+
+    <!-- MASCOT PROMPT BANNER -->
+    <section class="algo-callout" id="algoCallout">
+      <div class="algo-avatar">🤖</div>
+      <div class="algo-speech">
+        <h4 id="algoTitle">გამარჯობა! მე რობოტი ალგო ვარ!</h4>
+        <p id="algoMessage">დღეს ერთად გავარკვევთ, რა ჯადოსნური ძალა ამოძრავებს კომპიუტერებს, ტელეფონებს და ჩვენს ყოველდღიურ ცხოვრებას. მზად ხარ თავგადასავლისთვის?</p>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 1: INTRO & PROPERTIES -->
+    <!-- ========================================== -->
+    <div id="tab-intro" class="tab-pane active">
+
+      <!-- WHAT IS ALGORITHM -->
+      <section class="card">
+        <div class="card-header-styled">
+          <div class="card-icon">💡</div>
+          <div>
+            <h2 class="card-title">რა არის ალგორითმი?</h2>
+            <p class="card-subtitle">მარტივი ნაბიჯები დიდი მიზნების მისაღწევად</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <p style="font-size: 1.05rem; margin-bottom: 1rem; color: #1e293b;">
+              <strong>ალგორითმი</strong> არის მოქმედებათა ზუსტი, თანმიმდევრული და სრული გეგმა (ნაბიჯების ერთობლიობა), რომლის შესრულებაც აუცილებლად მიგვიყვანს დასახულ შედეგამდე ან ამოხსნის კონკრეტულ ამოცანას.
+            </p>
+            <div style="background: #eef2ff; border-left: 4px solid var(--primary); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem;">
+              <h4 style="color: var(--primary-dark); font-weight: 800; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>🎓</span> დონალდ კნუტი (კომპიუტერული მეცნიერების პიონერი):
+              </h4>
+              <p style="font-size: 0.92rem; color: #334155;">
+                <em>„ალგორითმი არის ამოცანის ამოხსნისთვის საჭირო მოქმედებათა თანმიმდევრობის განმსაზღვრელი წესები.“</em> (1968 წ.)
+              </p>
+            </div>
+            <p style="font-size: 0.95rem; color: #475569;">
+              როგორც კულინარიულ რეცეპტშია გაწერილი ნამცხვრის გამოცხობის თითოეული ნაბიჯი, ისევე სჭირდება კომპიუტერს ან ადამიანს ალგორითმი ნებისმიერი საქმის უშეცდომოდ გასაკეთებლად!
+            </p>
+          </div>
+
+          <!-- REAL LIFE ROUTINE EXAMPLE -->
+          <div style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: var(--radius-md); padding: 1.25rem;">
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: #1e293b; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+              <span>🥪</span> ყოველდღიური მაგალითი: სენდვიჩის მომზადება
+            </h3>
+            <div class="step-list">
+              <div class="step-item">
+                <div class="step-num">1</div>
+                <div class="step-content">ავიღოთ ორი ნაჭერი პური 🍞</div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">2</div>
+                <div class="step-content">ერთ ნაჭერს წავუსვათ კარაქი ან სოუსი 🧈</div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">3</div>
+                <div class="step-content">დავადოთ ყველი და პომიდვრის ნაჭერი 🧀🍅</div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">4</div>
+                <div class="step-content">ზემოდან დავაფაროთ მეორე პურის ნაჭერი 🥪</div>
+              </div>
+              <div class="step-item" style="background: #ecfdf5; border-color: #a7f3d0;">
+                <div class="step-num" style="background: var(--success);">✓</div>
+                <div class="step-content" style="color: #065f46; font-weight: 700;">შედეგი: გემრიელი სენდვიჩი მზადაა! 🎉</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 CORE PROPERTIES -->
+      <section class="card">
+        <div class="card-header-styled">
+          <div class="card-icon">✨</div>
+          <div>
+            <h2 class="card-title">ალგორითმის 5 ჯადოსნური თვისება</h2>
+            <p class="card-subtitle">რატომ არის ალგორითმი ასეთი საიმედო და ჭკვიანი? (დააკლიკე ბარათებს დეტალებისთვის!)</p>
+          </div>
+        </div>
+
+        <div class="grid-5" id="propertyCardsGrid">
+          <!-- 1: სასრულობა -->
+          <div class="property-card active-prop" data-prop="finiteness">
+            <div class="prop-top">
+              <span class="prop-icon">⏳</span>
+              <span class="prop-tag">თვისება 1</span>
+            </div>
+            <h3 class="prop-title">სასრულობა</h3>
+            <p class="prop-desc">ალგორითმი აუცილებლად უნდა მთავრდებოდეს ნაბიჯების განსაზღვრული რაოდენობის შემდეგ.</p>
+            <div class="prop-example-box">
+              <strong>რომ არ ჰქონდეს?</strong> რობოტი უსასრულოდ გააგრძელებდა მუშაობას და კომპიუტერი "გაიჭედებოდა"!
+            </div>
+          </div>
+
+          <!-- 2: განსაზღვრულობა -->
+          <div class="property-card" data-prop="definiteness">
+            <div class="prop-top">
+              <span class="prop-icon">🎯</span>
+              <span class="prop-tag">თვისება 2</span>
+            </div>
+            <h3 class="prop-title">განსაზღვრულობა</h3>
+            <p class="prop-desc">ყოველი ნაბიჯი ზუსტი, ცხადი და ცალსახაა (ორაზროვნების გარეშე).</p>
+            <div class="prop-example-box">
+              <strong>მაგალითი:</strong> არა „ცოტა მარილი“, არამედ „ზუსტად 1 ჩაის კოვზი მარილი“.
+            </div>
+          </div>
+
+          <!-- 3: უნივერსალურობა -->
+          <div class="property-card" data-prop="universality">
+            <div class="prop-top">
+              <span class="prop-icon">🌍</span>
+              <span class="prop-tag">თვისება 3</span>
+            </div>
+            <h3 class="prop-title">უნივერსალურობა</h3>
+            <p class="prop-desc">მუშაობს მსგავსი ტიპის ნებისმიერი საწყისი მონაცემისთვის და არა მხოლოდ ერთხელ.</p>
+            <div class="prop-example-box">
+              <strong>მაგალითი:</strong> შეკრების ალგორითმი კრებს 2+3-საც და 105+450-საც!
+            </div>
+          </div>
+
+          <!-- 4: შედეგიანობა -->
+          <div class="property-card" data-prop="effectiveness">
+            <div class="prop-top">
+              <span class="prop-icon">🏁</span>
+              <span class="prop-tag">თვისება 4</span>
+            </div>
+            <h3 class="prop-title">შედეგიანობა</h3>
+            <p class="prop-desc">ყველა ნაბიჯის შესრულება აუცილებლად მიგვიყვანს კონკრეტულ, სასურველ შედეგამდე.</p>
+            <div class="prop-example-box">
+              <strong>მაგალითი:</strong> მივიღეთ უდიდესი რიცხვი ან გამომცხვარი ღვეზელი!
+            </div>
+          </div>
+
+          <!-- 5: დისკრეტულობა -->
+          <div class="property-card" data-prop="discreteness">
+            <div class="prop-top">
+              <span class="prop-icon">🪜</span>
+              <span class="prop-tag">თვისება 5</span>
+            </div>
+            <h3 class="prop-title">დისკრეტულობა</h3>
+            <p class="prop-desc">მთელი პროცესი დაყოფილია ცალკეულ, მკაფიო, მარტივ საფეხურებად (ბიჯებად).</p>
+            <div class="prop-example-box">
+              <strong>მაგალითი:</strong> კიბეზე ასვლისას თითოეულ საფეხურზე რიგრიგობით ვაბიჯებთ.
+            </div>
+          </div>
+        </div>
+
+        <!-- DYNAMIC PROPERTY EXPLAINER PANEL -->
+        <div id="propDynamicDetail" style="margin-top: 1.5rem; padding: 1.25rem 1.5rem; background: #faf5ff; border: 2px solid #e9d5ff; border-radius: var(--radius-md);">
+          <h4 id="propDetailTitle" style="color: #6b21a8; font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem;">
+            ⏳ სასრულობა (Finiteness)
+          </h4>
+          <p id="propDetailText" style="color: #4c1d95; font-size: 0.95rem;">
+            წარმოიდგინე, დედამ რომ გითხრას: „დაალაგე ოთახი და მერე ითამაშე“. თუ დალაგების პროცესი არასოდეს დასრულდება, თამაშს ვერასოდეს დაიწყებ! ალგორითმში ყოველი მოქმედება მიდის დასასრულისკენ.
+          </p>
+        </div>
+      </section>
+
+      <!-- INFORMATICS & ALGORITHMS CONNECTION -->
+      <section class="card" style="background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); border-color: #bae6fd;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 2.5rem;">💻</div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0369a1; margin-bottom: 0.25rem;">
+              ალგორითმიკა და ინფორმატიკა — როგორ უკავშირდებიან ისინი ერთმანეთს?
+            </h3>
+            <p style="font-size: 0.92rem; color: #0f172a;">
+              <strong>ინფორმატიკა</strong> არის მეცნიერება ინფორმაციის მიღების, დამუშავების, შენახვისა და გადაცემის შესახებ. კომპიუტერები მართულია პროგრამებით, ხოლო ნებისმიერი პროგრამის გული და ძრავა სწორედ <strong>ალგორითმია</strong>!
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: FORMS OF WRITING ALGORITHMS -->
+    <!-- ========================================== -->
+    <div id="tab-forms" class="tab-pane">
+
+      <!-- 4 REPRESENTATION FORMS OVERVIEW -->
+      <section class="card">
+        <div class="card-header-styled">
+          <div class="card-icon">✍️</div>
+          <div>
+            <h2 class="card-title">როგორ შეიძლება ჩავწეროთ ალგორითმი?</h2>
+            <p class="card-subtitle">სიტყვებიდან და ფსევდოკოდიდან ბლოკ-სქემებამდე და პროგრამირებამდე</p>
+          </div>
+        </div>
+
+        <p style="font-size: 1rem; color: #334155; margin-bottom: 1.5rem;">
+          ერთსა და იმავე ალგორითმს შეგვიძლია რამდენიმე განსხვავებული ფორმით მივცეთ სახე, იმის მიხედვით, თუ ვისთვის არის ის განკუთვნილი — ადამიანისთვის თუ კომპიუტერისთვის:
+        </p>
+
+        <div class="grid-2">
+          <!-- 1. VERBAL -->
+          <div style="background: #f8fafc; border: 2px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+              <span style="font-size: 1.5rem;">🗣️</span>
+              <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);">1. სიტყვიერი ჩაწერა (ბუნებრივი ენა)</h3>
+            </div>
+            <p style="font-size: 0.9rem; color: #475569; margin-bottom: 0.75rem;">
+              ალგორითმი იწერება ჩვეულებრივი სასაუბრო ქართული ენით, ნაბიჯ-ნაბიჯ:
+            </p>
+            <div style="background: white; border-radius: var(--radius-sm); padding: 0.85rem; border-left: 3px solid #3b82f6; font-size: 0.88rem; line-height: 1.6;">
+              <strong>ორ რიცხვს შორის უდიდესის პოვნა:</strong><br>
+              1. განსაზღვრეთ ორი რიცხვი: a და b.<br>
+              2. შეადარეთ ისინი: თუ a ტოლია b-სი, მაშინ თქვით „რიცხვები ტოლია“.<br>
+              3. თუ a მეტია b-ზე, უდიდესია a, წინააღმდეგ შემთხვევაში — b.<br>
+              4. გამოიტანეთ უდიდესი რიცხვი.
+            </div>
+          </div>
+
+          <!-- 2. PSEUDOCODE -->
+          <div style="background: #f8fafc; border: 2px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+              <span style="font-size: 1.5rem;">📋</span>
+              <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);">2. ფსევდოკოდი (ნახევრად პროგრამული)</h3>
+            </div>
+            <p style="font-size: 0.9rem; color: #475569; margin-bottom: 0.75rem;">
+              აღნიშვნებისა და წესების ერთიანი სისტემა, რომელიც ჰგავს პროგრამირებას, მაგრამ ადვილად წასაკითხია:
+            </p>
+            <div class="code-box">
+              <span class="code-keyword">შეტანა</span> <span class="code-var">a, b</span><br>
+              <span class="code-keyword">თუ</span> <span class="code-var">a = b</span> <span class="code-keyword">მაშინ</span> <span class="code-func">გამოტანა</span>("რიცხვები ტოლია")<br>
+              <span class="code-keyword">თუ</span> <span class="code-var">a > b</span> <span class="code-keyword">მაშინ</span> <span class="code-func">გამოტანა</span>(<span class="code-var">a</span>)<br>
+              &nbsp;&nbsp;<span class="code-keyword">თუ არა</span> <span class="code-func">გამოტანა</span>(<span class="code-var">b</span>)<br>
+              <span class="code-keyword">დასასრული</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. FLOWCHART BLOCKS (ALL FROM SOURCE DOC) -->
+      <section class="card">
+        <div class="card-header-styled">
+          <div class="card-icon">📐</div>
+          <div>
+            <h2 class="card-title">3. გრაფიკული ჩაწერა — ბლოკ-სქემა</h2>
+            <p class="card-subtitle">გეომეტრიული ფიგურები, რომლებიც ალგორითმს ნახატად აქცევენ (დააკლიკე ფიგურას გასაცნობად!)</p>
+          </div>
+        </div>
+
+        <p style="font-size: 0.95rem; color: #475569; margin-bottom: 1.25rem;">
+          ბლოკ-სქემაში თითოეულ მოქმედებას თავისი უნიკალური გეომეტრიული ფიგურა შეესაბამება:
+        </p>
+
+        <div class="grid-3" id="flowShapesGrid">
+          <!-- 1: დასაწყისი/დასასრული -->
+          <div class="shape-card active-shape" data-shape="start-end">
+            <div class="shape-svg-wrapper">
+              <svg viewBox="0 0 160 60" width="150" height="56">
+                <ellipse cx="80" cy="30" rx="72" ry="24" fill="#e0e7ff" stroke="#4f46e5" stroke-width="3"/>
+                <text x="80" y="35" text-anchor="middle" font-size="13" font-weight="bold" fill="#312e81" font-family="FiraGO, sans-serif">დასაწყისი / დასასრული</text>
+              </svg>
+            </div>
+            <h4 class="shape-name">ოვალური ბლოკი</h4>
+            <p class="shape-purpose">აღნიშნავს ალგორითმის დაწყებას ან დასრულებას. ნებისმიერი ბლოკ-სქემა ამით იწყება და მთავრდება!</p>
+          </div>
+
+          <!-- 2: შეტანა/გამოტანა -->
+          <div class="shape-card" data-shape="io">
+            <div class="shape-svg-wrapper">
+              <svg viewBox="0 0 160 60" width="150" height="56">
+                <polygon points="30,8 150,8 130,52 10,52" fill="#dcfce7" stroke="#10b981" stroke-width="3"/>
+                <text x="80" y="35" text-anchor="middle" font-size="13" font-weight="bold" fill="#065f46" font-family="FiraGO, sans-serif">შეტანა / გამოტანა</text>
+              </svg>
+            </div>
+            <h4 class="shape-name">პარალელოგრამი</h4>
+            <p class="shape-purpose">მონაცემების შემოტანა კომპიუტერში (კლავიატურიდან) ან შედეგის ეკრანზე გამოტანა.</p>
+          </div>
+
+          <!-- 3: მოქმედება -->
+          <div class="shape-card" data-shape="process">
+            <div class="shape-svg-wrapper">
+              <svg viewBox="0 0 160 60" width="150" height="56">
+                <rect x="10" y="10" width="140" height="40" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="3"/>
+                <text x="80" y="35" text-anchor="middle" font-size="13" font-weight="bold" fill="#78350f" font-family="FiraGO, sans-serif">მოქმედება (a + b = c)</text>
+              </svg>
+            </div>
+            <h4 class="shape-name">მართკუთხედი</h4>
+            <p class="shape-purpose">გამოთვლები, მათემატიკური ოპერაციები და ნებისმიერი კონკრეტული მოქმედების შესრულება.</p>
+          </div>
+
+          <!-- 4: პირობა / გადაწყვეტა (IF) -->
+          <div class="shape-card" data-shape="decision">
+            <div class="shape-svg-wrapper">
+              <svg viewBox="0 0 160 60" width="150" height="56">
+                <polygon points="80,5 152,30 80,55 8,30" fill="#fee2e2" stroke="#ef4444" stroke-width="3"/>
+                <text x="80" y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b" font-family="FiraGO, sans-serif">პირობა (a > b ?)</text>
+              </svg>
+            </div>
+            <h4 class="shape-name">რომბი (პირობა / IF)</h4>
+            <p class="shape-purpose">ლოგიკური შეკითხვა. გზა ორად იყოფა: „დიახ“ (კი) და „არა“ მიმართულებებად!</p>
+          </div>
+
+          <!-- 5: მოდიფიკაცია (ციკლი) -->
+          <div class="shape-card" data-shape="loop">
+            <div class="shape-svg-wrapper">
+              <svg viewBox="0 0 160 60" width="150" height="56">
+                <polygon points="30,8 130,8 152,30 130,52 30,52 8,30" fill="#f3e8ff" stroke="#a855f7" stroke-width="3"/>
+                <text x="80" y="35" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b21a8" font-family="FiraGO, sans-serif">მოდიფიკაცია (ციკლი)</text>
+              </svg>
+            </div>
+            <h4 class="shape-name">ექვსკუთხედი (მოდიფიკაცია)</h4>
+            <p class="shape-purpose">გამოიყენება ციკლებისთვის: საწყისი მნიშვნელობა, პირობა და ბიჯის გაზრდა (მაგ. i=1-დან 10-მდე).</p>
+          </div>
+
+          <!-- 6: წინასწარ განსაზღვრული პროცესი (ქვეპროგრამა) -->
+          <div class="shape-card" data-shape="subroutine">
+            <div class="shape-svg-wrapper">
+              <svg viewBox="0 0 160 60" width="150" height="56">
+                <rect x="10" y="10" width="140" height="40" fill="#e0f2fe" stroke="#0284c7" stroke-width="3"/>
+                <line x1="30" y1="10" x2="30" y2="50" stroke="#0284c7" stroke-width="2"/>
+                <line x1="130" y1="10" x2="130" y2="50" stroke="#0284c7" stroke-width="2"/>
+                <text x="80" y="35" text-anchor="middle" font-size="12" font-weight="bold" fill="#0369a1" font-family="FiraGO, sans-serif">ქვეპროგრამა / ფუნქცია</text>
+              </svg>
+            </div>
+            <h4 class="shape-name">წინასწარ განსაზღვრული</h4>
+            <p class="shape-purpose">დამხმარე ალგორითმები ან უკვე მზა ქვეპროგრამები და ფუნქციები, რომელთაც მზა სახით ვიძახებთ.</p>
+          </div>
+
+          <!-- 7: დოკუმენტი (დაბეჭდვა) -->
+          <div class="shape-card" data-shape="document">
+            <div class="shape-svg-wrapper">
+              <svg viewBox="0 0 160 60" width="150" height="56">
+                <path d="M 12 10 L 148 10 L 148 44 Q 115 54 80 44 Q 45 34 12 48 Z" fill="#ffedd5" stroke="#ea580c" stroke-width="3"/>
+                <text x="80" y="32" text-anchor="middle" font-size="12" font-weight="bold" fill="#9a3412" font-family="FiraGO, sans-serif">დაბეჭდვა / დოკუმენტი</text>
+              </svg>
+            </div>
+            <h4 class="shape-name">დოკუმენტის ბლოკი</h4>
+            <p class="shape-purpose">ტალღოვანი კიდით! მიუთითებს, რომ შედეგი უნდა დაიბეჭდოს ფურცელზე პრინტერის საშუალებით.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. PROGRAMMING LANGUAGES LADDER -->
+      <section class="card">
+        <div class="card-header-styled">
+          <div class="card-icon">🏗️</div>
+          <div>
+            <h2 class="card-title">4. პროგრამირების ენები და კომპიუტერის „ტვინი“</h2>
+            <p class="card-subtitle">როგორ გადაითარგმნება ალგორითმი კომპიუტერისთვის გასაგებ ენაზე?</p>
+          </div>
+        </div>
+
+        <p style="font-size: 0.95rem; color: #475569; margin-bottom: 1.25rem;">
+          კომპიუტერი სინამდვილეში მხოლოდ ელექტრონულ სიგნალებს — <strong>0-ებსა და 1-ებს (ორობით კოდს)</strong> აღიქვამს. იმისათვის, რომ ადამიანმა ადვილად დაწეროს პროგრამა, შექმნილია პროგრამირების ენების სხვადასხვა დონე:
+        </p>
+
+        <div class="ladder-container">
+          <!-- HIGH LEVEL -->
+          <div class="ladder-tier tier-high">
+            <div class="tier-badge">🟢</div>
+            <div class="tier-info">
+              <h4>ზედა დონე (High-Level) — ადამიანისთვის ყველაზე მარტივი</h4>
+              <p>ეს ენები ძალიან ჰგავს ბუნებრივ ინგლისურ ენასა და მათემატიკას. მასში წერა მარტივი და სახალისოა!</p>
+              <div class="tier-langs">
+                <span class="lang-pill">Scratch (ვიზუალური)</span>
+                <span class="lang-pill">Python</span>
+                <span class="lang-pill">Pascal</span>
+                <span class="lang-pill">Basic</span>
+                <span class="lang-pill">Ada</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- MID LEVEL -->
+          <div class="ladder-tier tier-mid">
+            <div class="tier-badge">🟡</div>
+            <div class="tier-info">
+              <h4>შუალედური დონე (Mid-Level) — ძლიერი და სწრაფი</h4>
+              <p>აერთიანებს როგორც ადამიანისთვის გასაგებ ბრძანებებს, ასევე პირდაპირ წვდომას კომპიუტერის მეხსიერებასთან.</p>
+              <div class="tier-langs">
+                <span class="lang-pill">C</span>
+                <span class="lang-pill">C++</span>
+                <span class="lang-pill">C#</span>
+                <span class="lang-pill">Java</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- LOW LEVEL / MACHINE -->
+          <div class="ladder-tier tier-low">
+            <div class="tier-badge">🔴</div>
+            <div class="tier-info">
+              <h4>ქვედა დონე და მანქანური ენა (Low-Level & Machine) — კომპიუტერის ენა</h4>
+              <p><strong>ასემბლერი (Assembler)</strong> და მანქანური კოდი (0 და 1). ეს არის ენა, რომელსაც უშუალოდ კომპიუტერის პროცესორი ასრულებს უსწრაფესად.</p>
+              <div class="tier-langs">
+                <span class="lang-pill">Macro-Assembler</span>
+                <span class="lang-pill">Binary Code (01010110)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- C LANGUAGE SNIPPET FROM DOC -->
+        <div style="margin-top: 1.5rem; background: #1e1e2f; border-radius: var(--radius-md); padding: 1.25rem;">
+          <h4 style="color: #93c5fd; font-size: 0.95rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span>💻</span> ორი რიცხვიდან უდიდესის პოვნა C ენაზე (საწყისი მასალიდან):
+          </h4>
+          <div class="code-box" style="border: none; padding: 0.5rem 0;">
+<span class="code-comment">// მარტივი პროგრამა C ენაზე</span>
+<span class="code-keyword">#include</span> <span class="code-var">&lt;stdio.h&gt;</span>
+<span class="code-func">main</span>() {
+    <span class="code-keyword">int</span> a, b;
+    <span class="code-func">scanf</span>(<span class="code-op">"%d, %d"</span>, &amp;a, &amp;b);  <span class="code-comment">// შეტანა</span>
+    <span class="code-keyword">if</span> (a &gt; b)
+        <span class="code-func">printf</span>(<span class="code-op">"a"</span>);           <span class="code-comment">// თუ a მეტია, გამოვიტანოთ a</span>
+    <span class="code-keyword">else</span>
+        <span class="code-func">printf</span>(<span class="code-op">"b"</span>);           <span class="code-comment">// წინააღმდეგ შემთხვევაში - b</span>
+}
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: TYPES OF ALGORITHMS -->
+    <!-- ========================================== -->
+    <div id="tab-types" class="tab-pane">
+
+      <!-- THE 3 MAIN CONTROL STRUCTURES + RECURSION -->
+      <section class="card">
+        <div class="card-header-styled">
+          <div class="card-icon">🔀</div>
+          <div>
+            <h2 class="card-title">ალგორითმის ძირითადი ტიპები</h2>
+            <p class="card-subtitle">სამი მმართველი სტრუქტურა, რომელზეც დგას მსოფლიოს ყველა პროგრამა!</p>
+          </div>
+        </div>
+
+        <p style="font-size: 0.95rem; color: #475569; margin-bottom: 1.5rem;">
+          მეცნიერებმა დაამტკიცეს, რომ ნებისმიერი, თუნდაც ყველაზე რთული კომპიუტერული თამაში ან პროგრამა, შეიძლება აიგოს მხოლოდ <strong>სამი ძირითადი სტრუქტურით</strong> (ხოლო კომპაქტურობისთვის ემატება რეკურსიაც):
+        </p>
+
+        <!-- TYPE 1: LINEAR -->
+        <div class="card" style="border-left: 6px solid #3b82f6; background: #fafafa;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+            <div style="flex: 1; min-width: 280px;">
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: #1e40af; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span>➡️</span> 1. წრფივი ალგორითმი (Linear)
+              </h3>
+              <p style="font-size: 0.92rem; color: #334155; margin-bottom: 0.85rem;">
+                ყველა ბრძანება სრულდება თანმიმდევრულად, <strong>ერთი მეორის მიყოლებით</strong>, სწორი ხაზით — ყოველგვარი გადახვევის ან განმეორების გარეშე.
+              </p>
+              <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid #e2e8f0; font-size: 0.88rem;">
+                <strong>მაგალითი ცხოვრებიდან:</strong> დილით ადგომა ➡️ პირის დაბანა ➡️ ტანსაცმლის ჩაცმა ➡️ საუზმობა.
+              </div>
+            </div>
+            <!-- MINI SVG DIAGRAM -->
+            <div style="background: white; border: 1px solid #e2e8f0; border-radius: var(--radius-sm); padding: 0.75rem; text-align: center;">
+              <svg width="140" height="200" viewBox="0 0 140 200">
+                <!-- Start -->
+                <ellipse cx="70" cy="22" rx="55" ry="16" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+                <text x="70" y="26" text-anchor="middle" font-size="11" font-weight="bold" fill="#312e81">დასაწყისი</text>
+                <!-- Arrow 1 -->
+                <line x1="70" y1="38" x2="70" y2="60" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+                <!-- Process 1 -->
+                <rect x="20" y="60" width="100" height="30" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+                <text x="70" y="79" text-anchor="middle" font-size="11" font-weight="bold" fill="#78350f">მოქმედება 1</text>
+                <!-- Arrow 2 -->
+                <line x1="70" y1="90" x2="70" y2="112" stroke="#475569" stroke-width="2"/>
+                <!-- Process 2 -->
+                <rect x="20" y="112" width="100" height="30" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+                <text x="70" y="131" text-anchor="middle" font-size="11" font-weight="bold" fill="#78350f">მოქმედება 2</text>
+                <!-- Arrow 3 -->
+                <line x1="70" y1="142" x2="70" y2="164" stroke="#475569" stroke-width="2"/>
+                <!-- End -->
+                <ellipse cx="70" cy="180" rx="55" ry="16" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+                <text x="70" y="184" text-anchor="middle" font-size="11" font-weight="bold" fill="#312e81">დასასრული</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- TYPE 2: BRANCHING -->
+        <div class="card" style="border-left: 6px solid #10b981; background: #fafafa;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+            <div style="flex: 1; min-width: 280px;">
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: #065f46; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span>🌿</span> 2. განშტოებადი ალგორითმი (Branching / Conditional)
+              </h3>
+              <p style="font-size: 0.92rem; color: #334155; margin-bottom: 0.85rem;">
+                შეიცავს <strong>პირობის შემოწმებას</strong> (რომბის ბლოკი). პასუხის მიხედვით („კი“ თუ „არა“) ალგორითმი ირჩევს სხვადასხვა გზას.
+              </p>
+              <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid #e2e8f0; font-size: 0.88rem; margin-bottom: 0.5rem;">
+                <strong>მაგალითი მასალიდან (დედა სახლშია?):</strong><br>
+                თუ დედა სახლშია ➡️ ვამზადებთ საშინაო დავალებას.<br>
+                თუ დედა არ არის სახლში ➡️ გავდივართ ეზოში (არიან მეგობრები? ⚽ კი - ფეხბურთი, არა - საქანელა).
+              </div>
+            </div>
+            <!-- MINI SVG BRANCHING -->
+            <div style="background: white; border: 1px solid #e2e8f0; border-radius: var(--radius-sm); padding: 0.75rem; text-align: center;">
+              <svg width="180" height="210" viewBox="0 0 180 210">
+                <ellipse cx="90" cy="18" rx="50" ry="14" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+                <text x="90" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#312e81">დასაწყისი</text>
+                <line x1="90" y1="32" x2="90" y2="52" stroke="#475569" stroke-width="2"/>
+                <!-- Decision Rhombus -->
+                <polygon points="90,52 145,77 90,102 35,77" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                <text x="90" y="80" text-anchor="middle" font-size="10" font-weight="bold" fill="#991b1b">პირობა?</text>
+                <!-- Yes path -->
+                <path d="M 35 77 L 15 77 L 15 125 L 30 125" fill="none" stroke="#10b981" stroke-width="2"/>
+                <text x="22" y="70" font-size="10" font-weight="bold" fill="#059669">კი</text>
+                <rect x="30" y="112" width="50" height="26" fill="#dcfce7" stroke="#10b981" stroke-width="1.5" rx="3"/>
+                <text x="55" y="129" text-anchor="middle" font-size="9" font-weight="bold" fill="#065f46">გზა A</text>
+                <!-- No path -->
+                <path d="M 145 77 L 165 77 L 165 125 L 150 125" fill="none" stroke="#ef4444" stroke-width="2"/>
+                <text x="148" y="70" font-size="10" font-weight="bold" fill="#dc2626">არა</text>
+                <rect x="100" y="112" width="50" height="26" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5" rx="3"/>
+                <text x="125" y="129" text-anchor="middle" font-size="9" font-weight="bold" fill="#991b1b">გზა B</text>
+                <!-- Join to End -->
+                <path d="M 55 138 L 55 160 L 90 160" fill="none" stroke="#475569" stroke-width="2"/>
+                <path d="M 125 138 L 125 160 L 90 160" fill="none" stroke="#475569" stroke-width="2"/>
+                <line x1="90" y1="160" x2="90" y2="175" stroke="#475569" stroke-width="2"/>
+                <ellipse cx="90" cy="190" rx="50" ry="14" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+                <text x="90" y="194" text-anchor="middle" font-size="10" font-weight="bold" fill="#312e81">დასასრული</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- TYPE 3: LOOP / ITERATIVE -->
+        <div class="card" style="border-left: 6px solid #f59e0b; background: #fafafa;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+            <div style="flex: 1; min-width: 280px;">
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: #b45309; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span>🔄</span> 3. ციკლური ალგორითმი (Loop / Iterative)
+              </h3>
+              <p style="font-size: 0.92rem; color: #334155; margin-bottom: 0.85rem;">
+                გულისხმობს მოქმედებათა მიმდევრობის <strong>მრავალჯერად განმეორებას</strong> მანამ, სანამ გარკვეული პირობა არ შესრულდება (ან წინასწარ განსაზღვრული რაოდენობით).
+              </p>
+              <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid #e2e8f0; font-size: 0.88rem;">
+                <strong>მაგალითი მასალიდან:</strong> გვაქვს რიცხვი $a$. ყოველ ბიჯზე ვუმატებთ 5-ს ($a = a + 5$), სანამ რიცხვი არ გახდება 35-ზე მეტი! როცა 35-ზე მეტი გახდება, ციკლი წყდება.
+              </div>
+            </div>
+            <!-- MINI SVG LOOP -->
+            <div style="background: white; border: 1px solid #e2e8f0; border-radius: var(--radius-sm); padding: 0.75rem; text-align: center;">
+              <svg width="160" height="210" viewBox="0 0 160 210">
+                <ellipse cx="80" cy="18" rx="48" ry="14" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+                <text x="80" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#312e81">დასაწყისი</text>
+                <line x1="80" y1="32" x2="80" y2="52" stroke="#475569" stroke-width="2"/>
+                <!-- Process -->
+                <rect x="30" y="52" width="100" height="28" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="4"/>
+                <text x="80" y="70" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">მოქმედება (+5)</text>
+                <line x1="80" y1="80" x2="80" y2="100" stroke="#475569" stroke-width="2"/>
+                <!-- Condition -->
+                <polygon points="80,100 135,122 80,144 25,122" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                <text x="80" y="125" text-anchor="middle" font-size="9" font-weight="bold" fill="#991b1b">რიცხვი &gt; 35?</text>
+                <!-- Loop back arrow (No) -->
+                <path d="M 135 122 L 150 122 L 150 66 L 132 66" fill="none" stroke="#ef4444" stroke-width="2"/>
+                <text x="146" y="112" font-size="9" font-weight="bold" fill="#ef4444">არა</text>
+                <!-- Yes arrow -->
+                <line x1="80" y1="144" x2="80" y2="170" stroke="#10b981" stroke-width="2"/>
+                <text x="88" y="158" font-size="9" font-weight="bold" fill="#10b981">კი</text>
+                <!-- End -->
+                <ellipse cx="80" cy="188" rx="48" ry="14" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+                <text x="80" y="192" text-anchor="middle" font-size="10" font-weight="bold" fill="#312e81">დასასრული</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- TYPE 4: RECURSIVE (INTUITIVE FOR KIDS) -->
+        <div class="card" style="border-left: 6px solid #8b5cf6; background: #fafafa;">
+          <div style="display: flex; align-items: flex-start; gap: 1.25rem; flex-wrap: wrap;">
+            <div style="font-size: 2.5rem; background: #ede9fe; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              🪆
+            </div>
+            <div style="flex: 1;">
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: #5b21b6; margin-bottom: 0.4rem;">
+                4. რეკურსიული ალგორითმი (Recursion — ჯადოსნური თოჯინა)
+              </h3>
+              <p style="font-size: 0.92rem; color: #334155; margin-bottom: 0.6rem;">
+                გინახავთ ქართული სუვენირი ან ხის თოჯინა (მატრიოშკა), რომელსაც გახსნით და შიგნით ზუსტად ისეთივე, ოღონდ უფრო პატარა თოჯინაა?
+              </p>
+              <p style="font-size: 0.92rem; color: #475569;">
+                <strong>რეკურსია</strong> არის ალგორითმი, რომელიც <strong>საკუთარ თავს იძახებს უფრო მცირე ზომის ამოცანისთვის</strong>, სანამ უმარტივეს ბაზისურ საფეხურამდე (ყველაზე პატარა თოჯინამდე) არ მივა! ეს საშუალებას გვაძლევს, რთული ამოცანა ძალიან მოკლედ და კომპაქტურად ჩავწეროთ.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- INTERACTIVE FLOWCHART TRACER (LIVE SIMULATOR) -->
+      <section class="card">
+        <div class="card-header-styled">
+          <div class="card-icon">⚡</div>
+          <div>
+            <h2 class="card-title">ცოცხალი სიმულატორი: უდიდესი რიცხვის პოვნა</h2>
+            <p class="card-subtitle">შეიყვანე რიცხვები და უყურე, როგორ ანათებს ბლოკ-სქემა ნაბიჯ-ნაბიჯ!</p>
+          </div>
+        </div>
+
+        <div class="simulator-box">
+          <div class="sim-controls">
+            <div class="sim-input-group">
+              <label for="simNumA">რიცხვი A:</label>
+              <input type="number" id="simNumA" value="15" min="1" max="999">
+            </div>
+            <div class="sim-input-group">
+              <label for="simNumB">რიცხვი B:</label>
+              <input type="number" id="simNumB" value="8" min="1" max="999">
+            </div>
+            <button id="btnRunSim" class="btn-action">
+              <span>▶️</span> <span>გაშვება / ანიმაცია</span>
+            </button>
+            <button id="btnStepSim" class="btn-secondary-action">
+              <span>👣</span> <span>ერთი ნაბიჯით წინ</span>
+            </button>
+            <button id="btnResetSim" class="btn-secondary-action">
+              <span>🔄</span> <span>თავიდან</span>
+            </button>
+          </div>
+
+          <div style="margin-bottom: 1rem; padding: 0.75rem 1rem; background: #e0e7ff; border-radius: var(--radius-sm); font-size: 0.92rem; color: #312e81; font-weight: 600;" id="simStatusText">
+            💡 სტატუსი: შეიყვანე რიცხვები და დააჭირე „გაშვებას“, რათა იხილო იმპულსის მოძრაობა!
+          </div>
+
+          <!-- INTERACTIVE SVG FLOWCHART -->
+          <div class="flowchart-svg-container">
+            <svg id="interactiveFlowSvg" width="460" height="420" viewBox="0 0 460 420">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 8 5 L 0 9 z" fill="#475569" />
+                </marker>
+                <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 8 5 L 0 9 z" fill="#10b981" />
+                </marker>
+                <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 8 5 L 0 9 z" fill="#ef4444" />
+                </marker>
+              </defs>
+
+              <!-- Node 1: Start -->
+              <g id="node-start" class="flow-node">
+                <ellipse cx="230" cy="30" rx="65" ry="18" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+                <text x="230" y="35" text-anchor="middle" font-size="12" font-weight="bold" fill="#312e81">დასაწყისი</text>
+              </g>
+
+              <!-- Line 1 -> 2 -->
+              <line x1="230" y1="48" x2="230" y2="78" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <!-- Node 2: Input a, b -->
+              <g id="node-input" class="flow-node">
+                <polygon points="170,78 310,78 290,118 150,118" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                <text x="230" y="103" text-anchor="middle" font-size="12" font-weight="bold" fill="#065f46" id="svgInputText">შეტანა: a, b</text>
+              </g>
+
+              <!-- Line 2 -> 3 -->
+              <line x1="230" y1="118" x2="230" y2="150" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <!-- Node 3: Condition a > b ? -->
+              <g id="node-cond" class="flow-node">
+                <polygon points="230,150 320,185 230,220 140,185" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                <text x="230" y="189" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b" id="svgCondText">a &gt; b ?</text>
+              </g>
+
+              <!-- Left Branch: Yes -> Action A -->
+              <path d="M 140 185 L 80 185 L 80 235" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-green)"/>
+              <text x="100" y="177" font-size="12" font-weight="bold" fill="#059669">კი</text>
+
+              <g id="node-action-a" class="flow-node">
+                <rect x="20" y="235" width="120" height="36" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+                <text x="80" y="258" text-anchor="middle" font-size="12" font-weight="bold" fill="#78350f">უდიდესია a</text>
+              </g>
+
+              <!-- Right Branch: No -> Action B -->
+              <path d="M 320 185 L 380 185 L 380 235" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+              <text x="340" y="177" font-size="12" font-weight="bold" fill="#dc2626">არა</text>
+
+              <g id="node-action-b" class="flow-node">
+                <rect x="320" y="235" width="120" height="36" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+                <text x="380" y="258" text-anchor="middle" font-size="12" font-weight="bold" fill="#78350f">უდიდესია b</text>
+              </g>
+
+              <!-- Merge paths to Output -->
+              <path d="M 80 271 L 80 305 L 230 305" fill="none" stroke="#475569" stroke-width="2"/>
+              <path d="M 380 271 L 380 305 L 230 305" fill="none" stroke="#475569" stroke-width="2"/>
+              <line x1="230" y1="305" x2="230" y2="325" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <!-- Node 4: Output Max -->
+              <g id="node-output" class="flow-node">
+                <polygon points="160,325 320,325 295,362 135,362" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                <text x="228" y="348" text-anchor="middle" font-size="12" font-weight="bold" fill="#065f46" id="svgOutputText">გამოტანა: მაქსიმუმი</text>
+              </g>
+
+              <!-- Line 4 -> 5 -->
+              <line x1="230" y1="362" x2="230" y2="385" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <!-- Node 5: End -->
+              <g id="node-end" class="flow-node">
+                <ellipse cx="230" cy="398" rx="65" ry="16" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+                <text x="230" y="402" text-anchor="middle" font-size="12" font-weight="bold" fill="#312e81">დასასრული</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: INTERACTIVE LAB & MINI-GAMES -->
+    <!-- ========================================== -->
+    <div id="tab-lab" class="tab-pane">
+
+      <!-- SUB-NAVIGATION FOR GAMES -->
+      <div class="game-tabs">
+        <button class="game-subtab-btn active" data-gametab="game-order">
+          <span>🧩</span> <span>თამაში 1: დაალაგე ნაბიჯები</span>
+        </button>
+        <button class="game-subtab-btn" data-gametab="game-shapes">
+          <span>🎯</span> <span>თამაში 2: ფიგურების ამოცნობა</span>
+        </button>
+        <button class="game-subtab-btn" data-gametab="game-quiz">
+          <span>❓</span> <span>თამაში 3: დიდი ქვიზი</span>
+        </button>
+      </div>
+
+      <!-- GAME 1: STEP ORDERING / SEQUENCER -->
+      <div id="game-order" class="game-view active">
+        <section class="card sequencer-container">
+          <div class="card-header-styled">
+            <div class="card-icon">🧩</div>
+            <div>
+              <h2 class="card-title">თამაში 1: ალგორითმის ნაბიჯების დალაგება</h2>
+              <p class="card-subtitle">გამოიყენე ისრები (⬆️ ⬇️) ნაბიჯების სწორი თანმიმდევრობით დასალაგებლად!</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
+            <button id="btnScenarioTea" class="btn-level active">☕ ჩაის მომზადება</button>
+            <button id="btnScenarioStreet" class="btn-level">🚶 ქუჩაზე გადასვლა</button>
+            <button id="btnScenarioBag" class="btn-level">🎒 ჩანთის ჩალაგება</button>
+          </div>
+
+          <div id="scenarioDescription" style="font-size: 0.95rem; color: #334155; margin-bottom: 1rem; font-weight: 600;">
+            დაალაგე ჩაის მომზადების ნაბიჯები პირველიდან ბოლომდე:
+          </div>
+
+          <div class="draggable-list" id="sequencerList">
+            <!-- Dynamically populated -->
+          </div>
+
+          <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1.25rem;">
+            <button id="btnCheckOrder" class="btn-action">
+              <span>🔍</span> <span>შემოწმება!</span>
+            </button>
+            <button id="btnShuffleOrder" class="btn-secondary-action">
+              <span>🔀</span> <span>არევა თავიდან</span>
+            </button>
+            <span id="orderResultFeedback" style="font-weight: 700; font-size: 0.95rem;"></span>
+          </div>
+        </section>
+      </div>
+
+      <!-- GAME 2: SHAPE MATCHING -->
+      <div id="game-shapes" class="game-view" style="display: none;">
+        <section class="card">
+          <div class="card-header-styled">
+            <div class="card-icon">🎯</div>
+            <div>
+              <h2 class="card-title">თამაში 2: რომელი ბლოკია?</h2>
+              <p class="card-subtitle">დააკვირდი ფიგურას და აირჩიე მისი სწორი დანიშნულება!</p>
+            </div>
+          </div>
+
+          <div id="shapeGuessContainer" style="text-align: center; max-width: 500px; margin: 0 auto;">
+            <div id="shapeQuestionCard" style="background: #f8fafc; border: 2px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem;">
+              <div id="shapeSvgDisplay" style="height: 100px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                <!-- SVG inserted dynamically -->
+              </div>
+              <h3 id="shapeQuestionPrompt" style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">რას აღნიშნავს ეს გეომეტრიული ფიგურა ბლოკ-სქემაში?</h3>
+            </div>
+
+            <div class="quiz-options" id="shapeOptionsList">
+              <!-- Dynamically populated buttons -->
+            </div>
+
+            <div id="shapeFeedbackBox" class="quiz-feedback-box" style="margin-top: 1rem;"></div>
+
+            <button id="btnNextShape" class="btn-action" style="margin-top: 1.25rem; display: none;">
+              <span>შემდეგი ფიგურა ➡️</span>
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <!-- GAME 3: BIG QUIZ -->
+      <div id="game-quiz" class="game-view" style="display: none;">
+        <section class="card quiz-container">
+          <div class="card-header-styled">
+            <div class="card-icon">❓</div>
+            <div>
+              <h2 class="card-title">თამაში 3: დიდი ალგორითმული ტესტი</h2>
+              <p class="card-subtitle">გამოცადე შენი ცოდნა და დააგროვე ვარსკვლავები სერტიფიკატისთვის!</p>
+            </div>
+          </div>
+
+          <!-- LEVEL SELECTION -->
+          <div class="quiz-level-selector">
+            <button id="btnLevelEasy" class="btn-level active">
+              <span>🌟</span> <span>დონე 1: დამწყები (IV-V კლასი)</span>
+            </button>
+            <button id="btnLevelHard" class="btn-level">
+              <span>🚀</span> <span>დონე 2: ექსპერტი (V-VI კლასი)</span>
+            </button>
+          </div>
+
+          <div class="quiz-question-card">
+            <div class="quiz-q-num" id="quizQuestionCounter">კითხვა 1 / 5</div>
+            <div class="quiz-q-text" id="quizQuestionText">იტვირთება...</div>
+            <div class="quiz-options" id="quizAnswersContainer">
+              <!-- Dynamically generated options -->
+            </div>
+            <div id="quizFeedback" class="quiz-feedback-box"></div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-weight: 700; color: #475569;" id="quizScoreDisplay">
+              ქულა: 0
+            </div>
+            <button id="btnNextQuestion" class="btn-action" style="display: none;">
+              <span>შემდეგი შეკითხვა ➡️</span>
+            </button>
+          </div>
+        </section>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 5: CERTIFICATE & REWARDS -->
+    <!-- ========================================== -->
+    <div id="tab-cert" class="tab-pane">
+
+      <section class="card" style="text-align: center;">
+        <h2 style="font-size: 1.6rem; font-weight: 800; color: #1e1b4b; margin-bottom: 0.5rem;">
+          🎉 გილოცავთ! თქვენ გაიარეთ ალგორითმების სამყარო!
+        </h2>
+        <p style="font-size: 1rem; color: #64748b; max-width: 650px; margin: 0 auto 1.5rem;">
+          შეიყვანეთ თქვენი სახელი და გვარი, რათა მიიღოთ ოფიციალური პერსონალური სერტიფიკატი: <strong>„ახალგაზრდა ალგორითმიკოსი“</strong>!
+        </p>
+
+        <!-- PRINTABLE CERTIFICATE -->
+        <div class="certificate-card" id="printableCertificate">
+          <div class="cert-seal">🏆</div>
+          <h2 class="cert-title">ს ი გ ე ლ ი</h2>
+          <p class="cert-subtitle">ახალგაზრდა ალგორითმიკოსის წარმატების სერტიფიკატი</p>
+
+          <p style="font-size: 0.95rem; color: #64748b; margin-bottom: 0.5rem;">ჯილდოვდება მოსწავლე:</p>
+          <input type="text" id="studentCertName" class="cert-name-input" value="გიორგი / ნინო" placeholder="ჩაწერე შენი სახელი">
+
+          <p class="cert-reason">
+            სასწავლო მოდულის <strong>„რა არის ალგორითმი?“</strong> წარმატებით დასრულების, ალგორითმის 5 ჯადოსნური თვისების, ბლოკ-სქემების შედგენისა და ლოგიკური ამოცანების უშეცდომოდ გადაჭრისთვის.
+          </p>
+
+          <div class="cert-footer">
+            <div style="text-align: left;">
+              <strong>თარიღი:</strong> <span id="certDateDisplay">2026 წელი</span><br>
+              <strong>დონე:</strong> კომპიუტერული ტექნოლოგიები (IV-VI კლასი)
+            </div>
+            <div style="text-align: right;">
+              <span style="font-size: 1.5rem;">🤖</span><br>
+              <strong>რობოტი ალგო & მასწავლებელი</strong>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <button id="btnPrintCert" class="btn-action" style="font-size: 1.05rem; padding: 0.75rem 1.75rem;">
+            <span>🖨️</span> <span>სერტიფიკატის ბეჭდვა / შენახვა (PDF)</span>
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- TEACHER'S GUIDE MODAL (PEDAGOGICAL BLUEPRINT) -->
+  <div class="modal-overlay" id="teacherModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>👩‍🏫 მასწავლებლის მეთოდური გზამკვლევი & გაკვეთილის გეგმა</h3>
+        <button class="modal-close-btn" id="btnCloseTeacherModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 0.5rem;">🎯 გაკვეთილის მიზანი და შედეგები (IV-VI კლასები)</h4>
+        <p style="margin-bottom: 1rem;">
+          გაკვეთილის მიზანია მოსწავლემ გააცნობიეროს ალგორითმის არსი, ამოიცნოს მისი თვისებები რეალურ ცხოვრებაში, შეძლოს მარტივი ალგორითმის სიტყვიერი, ფსევდოკოდური და გრაფიკული (ბლოკ-სქემა) სახით წარმოდგენა და განასხვაოს ძირითადი მმართველი სტრუქტურები (წრფივი, განშტოებადი, ციკლური).
+        </p>
+
+        <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 0.5rem;">⏱️ 45-წუთიანი გაკვეთილის სტრუქტურა</h4>
+        <ul style="margin-left: 1.5rem; margin-bottom: 1rem; line-height: 1.8;">
+          <li><strong>ფაზა 1 (10 წთ) — გამოწვევა & მოტივაცია:</strong> ყოველდღიური მაგალითები (სენდვიჩი, ქუჩაზე გადასვლა). კითხვა: „რა მოხდება, თუ ნაბიჯებს ადგილს შევუცვლით?“ რობოტი ალგოს გაცნობა.</li>
+          <li><strong>ფაზა 2 (15 წთ) — კვლევა & აღმოჩენა:</strong> ალგორითმის 5 თვისება, ბლოკ-სქემის ძირითადი ფიგურები და ალგორითმის ტიპები (წრფივი, განშტოება, ციკლი, რეკურსიის ინტუიციური მეტაფორა).</li>
+          <li><strong>ფაზა 3 (15 წთ) — ინტერაქტიული პრაქტიკა:</strong> სიმულატორის გაშვება რიცხვებით, ნაბიჯების დალაგების თამაში, ფიგურების ამოცნობა და დიფერენცირებული ქვიზი.</li>
+          <li><strong>ფაზა 4 (5 წთ) — შეჯამება & აღიარება:</strong> შეცდომების (ბაგების) განხილვა როგორც სწავლის შესაძლებლობა; სერტიფიკატების გენერირება.</li>
+        </ul>
+
+        <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 0.5rem;">🌱 ინკლუზიური მიდგომა & დიფერენცირება</h4>
+        <p style="margin-bottom: 1rem;">
+          - მოსწავლეებს, რომლებსაც უჭირთ კითხვა, ეხმარებათ ვიზუალური ფერადი ბლოკები, SVG ანიმაცია და აუდიო უკუკავშირი.<br>
+          - სწრაფი ტემპის მოსწავლეებისთვის გათვალისწინებულია „დონე 2: ექსპერტი“, სადაც ლოგიკური ბლოკ-სქემის ამოხსნა და C ენის კოდის ანალიზია მოცემული.
+        </p>
+
+        <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 0.5rem;">🛡️ ციფრული ეთიკა & უსაფრთხოება</h4>
+        <p>
+          რესურსი არ აგროვებს მოსწავლის პერსონალურ მონაცემებს, მუშაობს სრულად ლოკალურად და ხელს უწყობს შემოქმედებით, უსაფრთხო და მეგობრულ სასწავლო გარემოს.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-note">
+        <span style="font-size: 1.8rem;">🇬🇪</span>
+        <div>
+          <strong>ინტერაქტიული სასწავლო რესურსი: „რა არის ალგორითმი?“</strong><br>
+          შექმნილია საქართველოს სკოლების კომპიუტერული ტექნოლოგიების სტანდარტების შესაბამისად.
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="#tab-intro" onclick="switchTab('tab-intro')">შესავალი</a>
+        <a href="#tab-forms" onclick="switchTab('tab-forms')">ჩაწერის ფორმები</a>
+        <a href="#tab-types" onclick="switchTab('tab-types')">ალგორითმის ტიპები</a>
+        <a href="#tab-lab" onclick="switchTab('tab-lab')">თამაშები</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================= -->
+  <!-- JAVASCRIPT: APPLICATION LOGIC & SOUND SYNTHESIS -->
+  <!-- ======================================================= -->
+  <script>
+    /* ----------------------------------------------------
+       1. WEB AUDIO SYNTHESIZER (NO EXTERNAL AUDIO FILES NEEDED)
+       ---------------------------------------------------- */
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+          audioCtx = new AudioContext();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.15, gainVal = 0.1) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.warn('Audio not available', e);
+      }
+    }
+
+    function soundClick() {
+      playTone(520, 'sine', 0.08, 0.06);
+    }
+
+    function soundSuccess() {
+      if (!soundEnabled) return;
+      playTone(523.25, 'triangle', 0.1, 0.1); // C5
+      setTimeout(() => playTone(659.25, 'triangle', 0.12, 0.1), 100); // E5
+      setTimeout(() => playTone(783.99, 'triangle', 0.22, 0.12), 200); // G5
+    }
+
+    function soundError() {
+      if (!soundEnabled) return;
+      playTone(280, 'sawtooth', 0.15, 0.08);
+      setTimeout(() => playTone(220, 'sawtooth', 0.2, 0.08), 120);
+    }
+
+    function soundFanfare() {
+      if (!soundEnabled) return;
+      [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
+        setTimeout(() => playTone(freq, 'triangle', 0.25, 0.12), idx * 130);
+      });
+    }
+
+    // Toggle sound
+    const soundToggleBtn = document.getElementById('soundToggleBtn');
+    const soundIcon = document.getElementById('soundIcon');
+    const soundText = document.getElementById('soundText');
+
+    soundToggleBtn.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      if (soundEnabled) {
+        soundIcon.textContent = '🔊';
+        soundText.textContent = 'ხმა ჩართულია';
+        soundClick();
+      } else {
+        soundIcon.textContent = '🔇';
+        soundText.textContent = 'ხმა გამორთულია';
+      }
+    });
+
+    /* ----------------------------------------------------
+       2. TABS & PROGRESS TRACKING
+       ---------------------------------------------------- */
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    const globalProgressFill = document.getElementById('globalProgressFill');
+    const algoCallout = document.getElementById('algoCallout');
+    const algoTitle = document.getElementById('algoTitle');
+    const algoMessage = document.getElementById('algoMessage');
+
+    const algoTips = {
+      'tab-intro': {
+        title: 'რობოტი ალგო გირჩევს:',
+        msg: 'ალგორითმი ჩვენი ყოველდღიური მეგობარია! დააკლიკე 5 ჯადოსნურ თვისებას და გაიგე, როგორ მუშაობს თითოეული.'
+      },
+      'tab-forms': {
+        title: 'რობოტი ალგო გირჩევს:',
+        msg: 'ბლოკ-სქემა ალგორითმის ნახატია! დააკლიკე გეომეტრიულ ფიგურებს ქვემოთ, რომ დაიმახსოვრო მათი როლები.'
+      },
+      'tab-types': {
+        title: 'რობოტი ალგო გირჩევს:',
+        msg: 'გამოცადე ცოცხალი სიმულატორი! შეიყვანე რიცხვები და ნახე, როგორ გაიკვლევს გზას კომპიუტერი რომბის პირობაში.'
+      },
+      'tab-lab': {
+        title: 'რობოტი ალგო გირჩევს:',
+        msg: 'დროა პრაქტიკაზე გადავიდეთ! დაალაგე ნაბიჯები, ამოიცანი ფიგურები და უპასუხე ქვიზის კითხვებს.'
+      },
+      'tab-cert': {
+        title: 'ყოჩაღ! შენ ნამდვილი მკვლევარი ხარ!',
+        msg: 'შეიყვანე შენი სახელი ქვემოთ მოცემულ ველში და დაბეჭდე ან შეინახე შენი დამსახურებული სიგელი!'
+      }
+    };
+
+    let visitedTabs = new Set(['tab-intro']);
+    let totalScore = 0;
+
+    function updateProgress() {
+      const percentage = Math.min(100, Math.round((visitedTabs.size / 5) * 60 + (totalScore / 10) * 40));
+      globalProgressFill.style.width = percentage + '%';
+      const starsBadge = document.getElementById('starsBadge');
+      if (starsBadge) {
+        starsBadge.textContent = '⭐ ' + totalScore;
+      }
+    }
+
+    function switchTab(tabId) {
+      tabButtons.forEach(btn => {
+        if (btn.getAttribute('data-tab') === tabId) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      tabPanes.forEach(pane => {
+        if (pane.id === tabId) {
+          pane.classList.add('active');
+        } else {
+          pane.classList.remove('active');
+        }
+      });
+
+      visitedTabs.add(tabId);
+      updateProgress();
+
+      if (algoTips[tabId]) {
+        algoTitle.textContent = algoTips[tabId].title;
+        algoMessage.textContent = algoTips[tabId].msg;
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        soundClick();
+        const target = btn.getAttribute('data-tab');
+        switchTab(target);
+      });
+    });
+
+    /* ----------------------------------------------------
+       3. PROPERTY CARDS INTERACTIVITY
+       ---------------------------------------------------- */
+    const propDetails = {
+      finiteness: {
+        title: '⏳ სასრულობა (Finiteness)',
+        text: 'ალგორითმი არ უნდა იყოს გაუთავებელი! ის აუცილებლად უნდა მთავრდებოდეს ნაბიჯების კონკრეტული რაოდენობის შემდეგ, რათა მივიღოთ საბოლოო პასუხი.'
+      },
+      definiteness: {
+        title: '🎯 განსაზღვრულობა (Definiteness / დეტერმინირებულობა)',
+        text: 'ყოველი ბიჯი და მათი რიგითობა ზუსტად, მკაფიოდ და უეჭველად უნდა იყოს ჩამოყალიბებული, რათა შემსრულებელს არ დარჩეს ეჭვი, რა უნდა გააკეთოს.'
+      },
+      universality: {
+        title: '🌍 უნივერსალურობა (Universality)',
+        text: 'ალგორითმი ერთჯერადი არ არის! კარგი ალგორითმი მუშაობს საწყისი მონაცემების მთელი კლასისთვის (მაგალითად, რიცხვების შედარება მუშაობს ნებისმიერი რიცხვებისთვის).'
+      },
+      effectiveness: {
+        title: '🏁 შედეგიანობა (Effectiveness / Result)',
+        text: 'ნაბიჯების დასრულების შემდეგ აუცილებლად უნდა მივიღოთ მოსალოდნელი შედეგი (ამოხსნილი ამოცანა, გამომცხვარი კერძი ან დახატული ფიგურა).'
+      },
+      discreteness: {
+        title: '🪜 დისკრეტულობა (Discreteness)',
+        text: 'მთელი მოქმედება დაყოფილია ცალკეულ, მკაფიოდ გამოყოფილ საფეხურებად (ბიჯებად). არ შეიძლება ყველაფერი ერთ გაუგებარ მასად იყოს შერწყმული.'
+      }
+    };
+
+    const propCards = document.querySelectorAll('.property-card');
+    const propDetailTitle = document.getElementById('propDetailTitle');
+    const propDetailText = document.getElementById('propDetailText');
+
+    propCards.forEach(card => {
+      card.addEventListener('click', () => {
+        soundClick();
+        propCards.forEach(c => c.classList.remove('active-prop'));
+        card.classList.add('active-prop');
+        const propKey = card.getAttribute('data-prop');
+        if (propDetails[propKey]) {
+          propDetailTitle.textContent = propDetails[propKey].title;
+          propDetailText.textContent = propDetails[propKey].text;
+        }
+      });
+    });
+
+    /* ----------------------------------------------------
+       4. FLOWCHART SHAPE CARDS HIGHLIGHT
+       ---------------------------------------------------- */
+    const shapeCards = document.querySelectorAll('.shape-card');
+    shapeCards.forEach(card => {
+      card.addEventListener('click', () => {
+        soundClick();
+        shapeCards.forEach(c => c.classList.remove('active-shape'));
+        card.classList.add('active-shape');
+      });
+    });
+
+    /* ----------------------------------------------------
+       5. LIVE FLOWCHART SIMULATOR
+       ---------------------------------------------------- */
+    const simNumA = document.getElementById('simNumA');
+    const simNumB = document.getElementById('simNumB');
+    const btnRunSim = document.getElementById('btnRunSim');
+    const btnStepSim = document.getElementById('btnStepSim');
+    const btnResetSim = document.getElementById('btnResetSim');
+    const simStatusText = document.getElementById('simStatusText');
+    const svgInputText = document.getElementById('svgInputText');
+    const svgCondText = document.getElementById('svgCondText');
+    const svgOutputText = document.getElementById('svgOutputText');
+
+    const nodes = {
+      start: document.getElementById('node-start'),
+      input: document.getElementById('node-input'),
+      cond: document.getElementById('node-cond'),
+      actionA: document.getElementById('node-action-a'),
+      actionB: document.getElementById('node-action-b'),
+      output: document.getElementById('node-output'),
+      end: document.getElementById('node-end')
+    };
+
+    let simStepIndex = 0;
+    let simTimer = null;
+
+    function clearSimHighlights() {
+      Object.values(nodes).forEach(n => {
+        if (n) n.classList.remove('active-step');
+      });
+    }
+
+    function resetSim() {
+      if (simTimer) clearInterval(simTimer);
+      simStepIndex = 0;
+      clearSimHighlights();
+      const a = parseInt(simNumA.value) || 0;
+      const b = parseInt(simNumB.value) || 0;
+      svgInputText.textContent = `შეტანა: a=${a}, b=${b}`;
+      svgCondText.textContent = `${a} > ${b} ?`;
+      svgOutputText.textContent = 'გამოტანა: მაქსიმუმი';
+      simStatusText.innerHTML = `💡 მზადაა! დააჭირე <strong>„გაშვებას“</strong> ან <strong>„ერთი ნაბიჯით წინ“</strong>.`;
+    }
+
+    function stepSim() {
+      const a = parseInt(simNumA.value) || 0;
+      const b = parseInt(simNumB.value) || 0;
+      const isAGreater = a > b;
+      const maxVal = isAGreater ? a : b;
+
+      clearSimHighlights();
+
+      if (simStepIndex === 0) {
+        // Step 1: Start
+        nodes.start.classList.add('active-step');
+        simStatusText.innerHTML = `🏁 <strong>ნაბიჯი 1 (დასაწყისი):</strong> ალგორითმი დაიწყო!`;
+        soundClick();
+        simStepIndex++;
+      } else if (simStepIndex === 1) {
+        // Step 2: Input
+        nodes.input.classList.add('active-step');
+        svgInputText.textContent = `შეტანა: a=${a}, b=${b}`;
+        simStatusText.innerHTML = `📥 <strong>ნაბიჯი 2 (შეტანა):</strong> შევიტანეთ რიცხვები a = <strong>${a}</strong>, b = <strong>${b}</strong>.`;
+        soundClick();
+        simStepIndex++;
+      } else if (simStepIndex === 2) {
+        // Step 3: Condition
+        nodes.cond.classList.add('active-step');
+        svgCondText.textContent = `${a} > ${b} ?`;
+        simStatusText.innerHTML = `❓ <strong>ნაბიჯი 3 (პირობა):</strong> ვამოწმებთ: ${a} > ${b}? პასუხია: <strong>${isAGreater ? 'კი (დიახ)' : 'არა'}</strong>!`;
+        soundClick();
+        simStepIndex++;
+      } else if (simStepIndex === 3) {
+        // Step 4: Decision Action
+        if (isAGreater) {
+          nodes.actionA.classList.add('active-step');
+          simStatusText.innerHTML = `🌿 <strong>ნაბიჯი 4 (მოქმედება):</strong> რადგან ${a} > ${b}, წავედით მარცხენა განშტოებაზე: უდიდესია <strong>a (${a})</strong>!`;
+        } else {
+          nodes.actionB.classList.add('active-step');
+          simStatusText.innerHTML = `🌿 <strong>ნაბიჯი 4 (მოქმედება):</strong> რადგან ${a} არ არის მეტი ${b}-ზე, წავედით მარჯვენა განშტოებაზე: უდიდესია <strong>b (${b})</strong>!`;
+        }
+        soundClick();
+        simStepIndex++;
+      } else if (simStepIndex === 4) {
+        // Step 5: Output
+        nodes.output.classList.add('active-step');
+        svgOutputText.textContent = `გამოტანა: ${maxVal}`;
+        simStatusText.innerHTML = `📤 <strong>ნაბიჯი 5 (გამოტანა):</strong> ეკრანზე გამოვიტანეთ უდიდესი რიცხვი: <strong>${maxVal}</strong>!`;
+        soundSuccess();
+        simStepIndex++;
+      } else if (simStepIndex === 5) {
+        // Step 6: End
+        nodes.end.classList.add('active-step');
+        simStatusText.innerHTML = `🎉 <strong>ნაბიჯი 6 (დასასრული):</strong> ალგორითმი წარმატებით დასრულდა!`;
+        soundFanfare();
+        simStepIndex++;
+      } else {
+        resetSim();
+      }
+    }
+
+    btnRunSim.addEventListener('click', () => {
+      resetSim();
+      initAudio();
+      stepSim();
+      simTimer = setInterval(() => {
+        if (simStepIndex <= 5) {
+          stepSim();
+        } else {
+          clearInterval(simTimer);
+        }
+      }, 1200);
+    });
+
+    btnStepSim.addEventListener('click', () => {
+      initAudio();
+      stepSim();
+    });
+
+    btnResetSim.addEventListener('click', () => {
+      soundClick();
+      resetSim();
+    });
+
+    [simNumA, simNumB].forEach(input => {
+      input.addEventListener('change', resetSim);
+    });
+
+    resetSim();
+
+    /* ----------------------------------------------------
+       6. GAME 1: STEP SEQUENCER
+       ---------------------------------------------------- */
+    const scenarios = {
+      tea: {
+        title: '☕ დაალაგე ჩაის მომზადების ალგორითმის ნაბიჯები:',
+        correct: [
+          'ჩავასხათ წყალი ჩაიდანში და ავადუღოთ 🫖',
+          'ფინჯანში ჩავდოთ ჩაის პაკეტი 🍵',
+          'ფინჯანში დავასხათ მდუღარე წყალი 💧',
+          'დავამატოთ შაქარი და კოვზით მოვურიოთ 🥄',
+          'გემრიელად მივირთვათ ჩაი! 😋'
+        ]
+      },
+      street: {
+        title: '🚶 დაალაგე ქუჩაზე უსაფრთხოდ გადასვლის ალგორითმი:',
+        correct: [
+          'მივიდეთ ქვეითთა გადასასვლელთან (ზებრასთან) 🦓',
+          'დაველოდოთ შუქნიშნის მწვანე ფერს 🟢',
+          'გავიხედოთ მარცხნივ და დავრწმუნდეთ, რომ მანქანა ჩერდება 👀',
+          'გავიხედოთ მარჯვნივ და ყურადღებით ვიყოთ 🚗',
+          'მშვიდად და უსაფრთხოდ გადავიდეთ ქუჩაზე! 👟'
+        ]
+      },
+      bag: {
+        title: '🎒 დაალაგე სასკოლო ჩანთის ჩალაგების ალგორითმი:',
+        correct: [
+          'გავხსნათ ხვალინდელი გაკვეთილების ცხრილი 📅',
+          'მოვიძიოთ შესაბამისი სახელმძღვანელოები და რვეულები 📚',
+          'შევამოწმოთ პენალი (კალამი, ფანქარი, სახაზავი) ✏️',
+          'ჩავალაგოთ ყველაფერი ჩანთაში აკურატულად 🎒',
+          'მოვკიდოთ ხელი და მოვემზადოთ სკოლისთვის! 🏫'
+        ]
+      }
+    };
+
+    let currentScenarioKey = 'tea';
+    let currentStepItems = [];
+
+    const sequencerList = document.getElementById('sequencerList');
+    const scenarioDesc = document.getElementById('scenarioDescription');
+    const btnCheckOrder = document.getElementById('btnCheckOrder');
+    const btnShuffleOrder = document.getElementById('btnShuffleOrder');
+    const orderResultFeedback = document.getElementById('orderResultFeedback');
+
+    function loadScenario(key) {
+      currentScenarioKey = key;
+      scenarioDesc.textContent = scenarios[key].title;
+      orderResultFeedback.textContent = '';
+      // Shuffle initially
+      currentStepItems = [...scenarios[key].correct].sort(() => Math.random() - 0.5);
+      renderSequencer();
+    }
+
+    function renderSequencer() {
+      sequencerList.innerHTML = '';
+      currentStepItems.forEach((text, index) => {
+        const item = document.createElement('div');
+        item.className = 'drag-item';
+        item.innerHTML = `
+          <div class="drag-text-group">
+            <span class="step-num" style="width: 26px; height: 26px; font-size: 0.8rem;">${index + 1}</span>
+            <span>${text}</span>
+          </div>
+          <div class="drag-btn-controls">
+            <button class="btn-arrow-move" onclick="moveStep(${index}, -1)" title="ზემოთ ატანა" ${index === 0 ? 'disabled style="opacity:0.3;"' : ''}>⬆️</button>
+            <button class="btn-arrow-move" onclick="moveStep(${index}, 1)" title="ქვემოთ ჩამოტანა" ${index === currentStepItems.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>⬇️</button>
+          </div>
+        `;
+        sequencerList.appendChild(item);
+      });
+    }
+
+    window.moveStep = function(index, delta) {
+      soundClick();
+      const newIndex = index + delta;
+      if (newIndex < 0 || newIndex >= currentStepItems.length) return;
+      const temp = currentStepItems[index];
+      currentStepItems[index] = currentStepItems[newIndex];
+      currentStepItems[newIndex] = temp;
+      renderSequencer();
+    };
+
+    btnCheckOrder.addEventListener('click', () => {
+      const correct = scenarios[currentScenarioKey].correct;
+      let isAllCorrect = true;
+
+      const domItems = sequencerList.querySelectorAll('.drag-item');
+      currentStepItems.forEach((text, idx) => {
+        if (text === correct[idx]) {
+          domItems[idx].classList.add('correct-pos');
+        } else {
+          domItems[idx].classList.remove('correct-pos');
+          isAllCorrect = false;
+        }
+      });
+
+      if (isAllCorrect) {
+        soundSuccess();
+        orderResultFeedback.style.color = '#059669';
+        orderResultFeedback.textContent = '🎉 ყოჩაღ! ალგორითმი აბსოლუტურად სწორადაა დალაგებული!';
+        totalScore = Math.min(10, totalScore + 2);
+        updateProgress();
+      } else {
+        soundError();
+        orderResultFeedback.style.color = '#d97706';
+        orderResultFeedback.textContent = '🤔 ზოგიერთი ნაბიჯი არასწორ ადგილზეა. მინიშნება: შეხედე მწვანედ მონიშნულებს და სცადე გადაადგილება!';
+      }
+    });
+
+    btnShuffleOrder.addEventListener('click', () => {
+      soundClick();
+      loadScenario(currentScenarioKey);
+    });
+
+    document.getElementById('btnScenarioTea').addEventListener('click', (e) => {
+      setScenarioBtn(e.target);
+      loadScenario('tea');
+    });
+    document.getElementById('btnScenarioStreet').addEventListener('click', (e) => {
+      setScenarioBtn(e.target);
+      loadScenario('street');
+    });
+    document.getElementById('btnScenarioBag').addEventListener('click', (e) => {
+      setScenarioBtn(e.target);
+      loadScenario('bag');
+    });
+
+    function setScenarioBtn(activeBtn) {
+      soundClick();
+      [document.getElementById('btnScenarioTea'), document.getElementById('btnScenarioStreet'), document.getElementById('btnScenarioBag')].forEach(b => b.classList.remove('active'));
+      activeBtn.classList.add('active');
+    }
+
+    loadScenario('tea');
+
+    /* ----------------------------------------------------
+       7. GAME 2: SHAPE MATCHING GAME
+       ---------------------------------------------------- */
+    const shapeQuestions = [
+      {
+        svg: `<svg viewBox="0 0 160 60" width="160" height="60"><polygon points="80,5 152,30 80,55 8,30" fill="#fee2e2" stroke="#ef4444" stroke-width="3"/><text x="80" y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">a &gt; b ?</text></svg>`,
+        q: 'რა დანიშნულება აქვს რომბის ფიგურას ბლოკ-სქემაში?',
+        options: [
+          { text: 'პირობის შემოწმება და არჩევანის გაკეთება (კი / არა)', correct: true },
+          { text: 'ალგორითმის დაწყება ან დასრულება', correct: false },
+          { text: 'მონაცემების პრინტერზე დაბეჭდვა', correct: false }
+        ],
+        hint: 'რომბი ლოგიკური ბლოკია (IF), სადაც გზა ორად — „კი“ და „არა“ მიმართულებებად იყოფა!'
+      },
+      {
+        svg: `<svg viewBox="0 0 160 60" width="160" height="60"><polygon points="30,8 150,8 130,52 10,52" fill="#dcfce7" stroke="#10b981" stroke-width="3"/><text x="80" y="35" text-anchor="middle" font-size="13" font-weight="bold" fill="#065f46">a, b</text></svg>`,
+        q: 'რას აღნიშნავს პარალელოგრამი?',
+        options: [
+          { text: 'მონაცემების შეტანას ან ეკრანზე გამოტანას', correct: true },
+          { text: 'მათემატიკური ფორმულის გამოთვლას', correct: false },
+          { text: 'ციკლის მრავალჯერად განმეორებას', correct: false }
+        ],
+        hint: 'პარალელოგრამი გამოიყენება, როცა მომხმარებელი რიცხვებს წერს ან კომპიუტერი პასუხს გვაჩვენებს!'
+      },
+      {
+        svg: `<svg viewBox="0 0 160 60" width="160" height="60"><ellipse cx="80" cy="30" rx="72" ry="24" fill="#e0e7ff" stroke="#4f46e5" stroke-width="3"/><text x="80" y="35" text-anchor="middle" font-size="13" font-weight="bold" fill="#312e81">დასაწყისი</text></svg>`,
+        q: 'რას ემსახურება ოვალური ფიგურა?',
+        options: [
+          { text: 'ალგორითმის დასაწყისს ან დასასრულს', correct: true },
+          { text: 'ქვეპროგრამის გამოძახებას', correct: false },
+          { text: 'პირობის შემოწმებას', correct: false }
+        ],
+        hint: 'ყველა ბლოკ-სქემა იწყება და მთავრდება ოვალური ბლოკით!'
+      },
+      {
+        svg: `<svg viewBox="0 0 160 60" width="160" height="60"><path d="M 12 10 L 148 10 L 148 44 Q 115 54 80 44 Q 45 34 12 48 Z" fill="#ffedd5" stroke="#ea580c" stroke-width="3"/><text x="80" y="32" text-anchor="middle" font-size="12" font-weight="bold" fill="#9a3412">დაბეჭდვა</text></svg>`,
+        q: 'რას აღნიშნავს ფიგურა ტალღოვანი ქვედა კიდით?',
+        options: [
+          { text: 'დოკუმენტის პრინტერზე დაბეჭდვას', correct: true },
+          { text: 'რიცხვების შეკრებას', correct: false },
+          { text: 'ინტერნეტში ძიებას', correct: false }
+        ],
+        hint: 'ეს არის დოკუმენტის ბლოკი — ქაღალდის ტალღა მიუთითებს პრინტერზე!'
+      }
+    ];
+
+    let currentShapeIndex = 0;
+    const shapeSvgDisplay = document.getElementById('shapeSvgDisplay');
+    const shapeQuestionPrompt = document.getElementById('shapeQuestionPrompt');
+    const shapeOptionsList = document.getElementById('shapeOptionsList');
+    const shapeFeedbackBox = document.getElementById('shapeFeedbackBox');
+    const btnNextShape = document.getElementById('btnNextShape');
+
+    function loadShapeQuestion(idx) {
+      const qData = shapeQuestions[idx];
+      shapeSvgDisplay.innerHTML = qData.svg;
+      shapeQuestionPrompt.textContent = qData.q;
+      shapeFeedbackBox.style.display = 'none';
+      btnNextShape.style.display = 'none';
+      shapeOptionsList.innerHTML = '';
+
+      qData.options.forEach((opt, oIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option-btn';
+        btn.innerHTML = `
+          <span class="quiz-option-letter">${String.fromCharCode(65 + oIdx)}</span>
+          <span>${opt.text}</span>
+        `;
+        btn.addEventListener('click', () => {
+          checkShapeAnswer(opt.correct, qData.hint, btn);
+        });
+        shapeOptionsList.appendChild(btn);
+      });
+    }
+
+    function checkShapeAnswer(isCorrect, hint, clickedBtn) {
+      const allBtns = shapeOptionsList.querySelectorAll('.quiz-option-btn');
+      allBtns.forEach(b => b.disabled = true);
+
+      if (isCorrect) {
+        soundSuccess();
+        clickedBtn.classList.add('selected-correct');
+        shapeFeedbackBox.className = 'quiz-feedback-box correct';
+        shapeFeedbackBox.innerHTML = `🎉 <strong>სწორია! ყოჩაღ!</strong> ${hint}`;
+        totalScore = Math.min(10, totalScore + 1);
+        updateProgress();
+      } else {
+        soundError();
+        clickedBtn.classList.add('selected-wrong');
+        shapeFeedbackBox.className = 'quiz-feedback-box wrong';
+        shapeFeedbackBox.innerHTML = `💡 <strong>არ დაიდარდო! ბაგი ნორმალურია:</strong> ${hint}`;
+      }
+      btnNextShape.style.display = 'inline-flex';
+    }
+
+    btnNextShape.addEventListener('click', () => {
+      soundClick();
+      currentShapeIndex = (currentShapeIndex + 1) % shapeQuestions.length;
+      loadShapeQuestion(currentShapeIndex);
+    });
+
+    loadShapeQuestion(0);
+
+    /* ----------------------------------------------------
+       8. GAME 3: BIG QUIZ
+       ---------------------------------------------------- */
+    const quizData = {
+      easy: [
+        {
+          q: 'რა არის ალგორითმი მარტივი სიტყვებით?',
+          options: [
+            { text: 'მოქმედებათა ზუსტი თანმიმდევრობა მიზნის მისაღწევად', correct: true },
+            { text: 'კომპიუტერის ეკრანის ფერი', correct: false },
+            { text: 'უსასრულოდ გაგრძელებული ქაოსი', correct: false }
+          ],
+          exp: 'ალგორითმი არის ნაბიჯ-ნაბიჯ გაწერილი გეგმა ნებისმიერი ამოცანის ამოსახსნელად.'
+        },
+        {
+          q: 'ალგორითმის რომელ თვისებას ნიშნავს ის, რომ იგი აუცილებლად უნდა დამთავრდეს?',
+          options: [
+            { text: 'სასრულობა', correct: true },
+            { text: 'უნივერსალურობა', correct: false },
+            { text: 'დისკრეტულობა', correct: false }
+          ],
+          exp: 'სასრულობა ნიშნავს, რომ ალგორითმი ნაბიჯების გარკვეული რაოდენობის შემდეგ აუცილებლად სრულდება.'
+        },
+        {
+          q: 'რომელ ალგორითმში სრულდება ბრძანებები სწორი ხაზით, გადახვევის გარეშე?',
+          options: [
+            { text: 'წრფივ ალგორითმში', correct: true },
+            { text: 'განშტოებად ალგორითმში', correct: false },
+            { text: 'ციკლურ ალგორითმში', correct: false }
+          ],
+          exp: 'წრფივი ალგორითმი ერთი მეორის მიყოლებით, თანმიმდევრულად ასრულებს ყველა ბიჯს.'
+        },
+        {
+          q: 'რა ჰქვია ალგორითმის ჩაწერის გრაფიკულ ხერხს?',
+          options: [
+            { text: 'ბლოკ-სქემა', correct: true },
+            { text: 'ფსევდოკოდი', correct: false },
+            { text: 'ასემბლერი', correct: false }
+          ],
+          exp: 'ბლოკ-სქემაში მოქმედებები წარმოდგენილია გეომეტრიული ფიგურებით.'
+        },
+        {
+          q: 'თუ დედა სახლშია — ვამეცადინებთ, თუ არა — ეზოში გავდივართ. როგორი ალგორითმია ეს?',
+          options: [
+            { text: 'განშტოებადი (პირობითი)', correct: true },
+            { text: 'წრფივი', correct: false },
+            { text: 'მანქანური', correct: false }
+          ],
+          exp: 'რადგან პირობა არჩევს ორ განსხვავებულ გზას, ეს არის განშტოებადი ალგორითმი.'
+        }
+      ],
+      hard: [
+        {
+          q: 'რას ნიშნავს ალგორითმის თვისება „დისკრეტულობა“?',
+          options: [
+            { text: 'ალგორითმი დაყოფილია ცალკეულ, მკაფიო საფეხურებად (ბიჯებად)', correct: true },
+            { text: 'ალგორითმი მუშაობს მხოლოდ ინტერნეტის გარეშე', correct: false },
+            { text: 'ალგორითმი შეიცავს მხოლოდ რიცხვებს', correct: false }
+          ],
+          exp: 'დისკრეტულობა ნიშნავს პროცესის ცალკეულ, დამოუკიდებელ ბიჯებად დანაწევრებას.'
+        },
+        {
+          q: 'რა დონის ენას მიეკუთვნება ასემბლერი (Assembler)?',
+          options: [
+            { text: 'ქვედა დონის / მანქანაზე ორიენტირებულ ენას', correct: true },
+            { text: 'ზედა დონის ვიზუალურ ენას', correct: false },
+            { text: 'ბუნებრივ სასაუბრო ენას', correct: false }
+          ],
+          exp: 'ასემბლერი არის მანქანაზე ორიენტირებული ქვედა დონის ენა, რომელიც კომპიუტერის ბრძანებებს ემთხვევა.'
+        },
+        {
+          q: 'რა ეწოდება ალგორითმს, რომელიც საკუთარ თავს იძახებს უფრო მცირე ამოცანისთვის?',
+          options: [
+            { text: 'რეკურსიული ალგორითმი', correct: true },
+            { text: 'წრფივი ალგორითმი', correct: false },
+            { text: 'მოდიფიკაცია', correct: false }
+          ],
+          exp: 'რეკურსია საშუალებას იძლევა ამოცანა კომპაქტურად ჩაიწეროს საკუთარი თავის გამოძახებით (როგორც მატრიოშკა).'
+        },
+        {
+          q: 'ბლოკ-სქემაში რა ფიგურა გამოიყენება ციკლის მოდიფიკაციისთვის?',
+          options: [
+            { text: 'წაგრძელებული ექვსკუთხედი', correct: true },
+            { text: 'რომბი', correct: false },
+            { text: 'პარალელოგრამი', correct: false }
+          ],
+          exp: 'ექვსკუთხედში იწერება ციკლის საწყისი, საბოლოო მნიშვნელობა და ბიჯი (მაგ. i=1; i<10; i=i+1).'
+        },
+        {
+          q: 'რა არის ფსევდოკოდი?',
+          options: [
+            { text: 'ნახევრად ფორმალიზებული ჩაწერა (თუ... მაშინ... წინააღმდეგ შემთხვევაში)', correct: true },
+            { text: 'კომპიუტერული ვირუსი', correct: false },
+            { text: 'მხოლოდ ინგლისური ენის ლექსიკონი', correct: false }
+          ],
+          exp: 'ფსევდოკოდი აერთიანებს ბუნებრივ ენასა და პროგრამირების ელემენტებს ერთგვაროვანი ჩაწერისთვის.'
+        }
+      ]
+    };
+
+    let currentQuizLevel = 'easy';
+    let currentQuizIndex = 0;
+    let quizScore = 0;
+
+    const quizQuestionCounter = document.getElementById('quizQuestionCounter');
+    const quizQuestionText = document.getElementById('quizQuestionText');
+    const quizAnswersContainer = document.getElementById('quizAnswersContainer');
+    const quizFeedback = document.getElementById('quizFeedback');
+    const quizScoreDisplay = document.getElementById('quizScoreDisplay');
+    const btnNextQuestion = document.getElementById('btnNextQuestion');
+
+    function loadQuizQuestion(level, index) {
+      const qList = quizData[level];
+      const qData = qList[index];
+
+      quizQuestionCounter.textContent = `კითხვა ${index + 1} / ${qList.length}`;
+      quizQuestionText.textContent = qData.q;
+      quizFeedback.style.display = 'none';
+      btnNextQuestion.style.display = 'none';
+      quizAnswersContainer.innerHTML = '';
+
+      qData.options.forEach((opt, oIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option-btn';
+        btn.innerHTML = `
+          <span class="quiz-option-letter">${String.fromCharCode(65 + oIdx)}</span>
+          <span>${opt.text}</span>
+        `;
+        btn.addEventListener('click', () => {
+          checkQuizAnswer(opt.correct, qData.exp, btn);
+        });
+        quizAnswersContainer.appendChild(btn);
+      });
+    }
+
+    function checkQuizAnswer(isCorrect, exp, clickedBtn) {
+      const allBtns = quizAnswersContainer.querySelectorAll('.quiz-option-btn');
+      allBtns.forEach(b => b.disabled = true);
+
+      if (isCorrect) {
+        soundSuccess();
+        clickedBtn.classList.add('selected-correct');
+        quizFeedback.className = 'quiz-feedback-box correct';
+        quizFeedback.innerHTML = `🌟 <strong>ბრწყინვალეა!</strong> ${exp}`;
+        quizScore++;
+        totalScore = Math.min(10, totalScore + 1);
+        updateProgress();
+      } else {
+        soundError();
+        clickedBtn.classList.add('selected-wrong');
+        quizFeedback.className = 'quiz-feedback-box wrong';
+        quizFeedback.innerHTML = `💡 <strong>კარგი მცდელობაა! დავიმახსოვროთ:</strong> ${exp}`;
+      }
+
+      quizScoreDisplay.textContent = `ქულა: ${quizScore} / ${quizData[currentQuizLevel].length}`;
+      btnNextQuestion.style.display = 'inline-flex';
+    }
+
+    btnNextQuestion.addEventListener('click', () => {
+      soundClick();
+      currentQuizIndex++;
+      const qList = quizData[currentQuizLevel];
+      if (currentQuizIndex < qList.length) {
+        loadQuizQuestion(currentQuizLevel, currentQuizIndex);
+      } else {
+        // Finished Level
+        soundFanfare();
+        quizQuestionText.innerHTML = `🎉 გილოცავთ! თქვენ დაასრულეთ ტესტი და დააგროვეთ <strong>${quizScore}</strong> ქულა ${qList.length}-დან!`;
+        quizAnswersContainer.innerHTML = '';
+        btnNextQuestion.style.display = 'none';
+        quizFeedback.className = 'quiz-feedback-box correct';
+        quizFeedback.innerHTML = `გადადით მე-5 განყოფილებაში და მიიღეთ თქვენი <strong>ოფიციალური სერტიფიკატი</strong>! 🏆`;
+      }
+    });
+
+    document.getElementById('btnLevelEasy').addEventListener('click', (e) => {
+      soundClick();
+      currentQuizLevel = 'easy';
+      currentQuizIndex = 0;
+      quizScore = 0;
+      document.getElementById('btnLevelEasy').classList.add('active');
+      document.getElementById('btnLevelHard').classList.remove('active');
+      loadQuizQuestion('easy', 0);
+    });
+
+    document.getElementById('btnLevelHard').addEventListener('click', (e) => {
+      soundClick();
+      currentQuizLevel = 'hard';
+      currentQuizIndex = 0;
+      quizScore = 0;
+      document.getElementById('btnLevelHard').classList.add('active');
+      document.getElementById('btnLevelEasy').classList.remove('active');
+      loadQuizQuestion('hard', 0);
+    });
+
+    loadQuizQuestion('easy', 0);
+
+    /* ----------------------------------------------------
+       9. GAME SUB-TABS (ORDER / SHAPES / QUIZ)
+       ---------------------------------------------------- */
+    const gameSubtabBtns = document.querySelectorAll('.game-subtab-btn');
+    const gameViews = document.querySelectorAll('.game-view');
+
+    gameSubtabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        soundClick();
+        gameSubtabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const targetViewId = btn.getAttribute('data-gametab');
+        gameViews.forEach(v => {
+          if (v.id === targetViewId) {
+            v.style.display = 'block';
+          } else {
+            v.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    /* ----------------------------------------------------
+       10. CERTIFICATE & PRINTING
+       ---------------------------------------------------- */
+    const btnPrintCert = document.getElementById('btnPrintCert');
+    const certDateDisplay = document.getElementById('certDateDisplay');
+
+    if (certDateDisplay) {
+      const today = new Date();
+      certDateDisplay.textContent = today.toLocaleDateString('ka-GE', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    btnPrintCert.addEventListener('click', () => {
+      soundFanfare();
+      window.print();
+    });
+
+    /* ----------------------------------------------------
+       11. TEACHER'S MODAL
+       ---------------------------------------------------- */
+    const teacherGuideBtn = document.getElementById('teacherGuideBtn');
+    const teacherModal = document.getElementById('teacherModal');
+    const btnCloseTeacherModal = document.getElementById('btnCloseTeacherModal');
+
+    teacherGuideBtn.addEventListener('click', () => {
+      soundClick();
+      teacherModal.classList.add('open');
+    });
+
+    btnCloseTeacherModal.addEventListener('click', () => {
+      soundClick();
+      teacherModal.classList.remove('open');
+    });
+
+    teacherModal.addEventListener('click', (e) => {
+      if (e.target === teacherModal) {
+        teacherModal.classList.remove('open');
+      }
+    });
+
+    // Initialize initial progress
+    updateProgress();
+  </script>
+</body>
+</html>
